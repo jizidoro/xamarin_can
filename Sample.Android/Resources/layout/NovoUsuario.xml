@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="#ba815a"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+  <TextView
+      android:text="REGISTRAR"
+      android:gravity="center"
+      android:textAppearance="?android:attr/textAppearanceLarge"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:id="@+id/txtviewRegistrar" />
+  <EditText
+      android:hint="Usuário"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:id="@+id/txtNovoUsuario" />
+  <EditText
+      android:hint="Senha"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:inputType="textPassword"
+      android:id="@+id/txtSenhaNovoUsuario" />
+  <Button
+      android:text="CRIAR NOVO USUÁRIO"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:id="@+id/btnRegistrar" />
+</LinearLayout>
