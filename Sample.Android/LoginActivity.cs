@@ -3,7 +3,12 @@ using Android.Content;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
+using Sample.Android.Resources.Model;
+using SQLite;
 using System;
+using System.IO;
+using System.Net;
+using System.Text;
 
 namespace Sample.Android
 {
@@ -13,6 +18,9 @@ namespace Sample.Android
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
+
+            webRequestTeste();
+
 
             var scrollView = new ScrollView(this)
             {
@@ -63,6 +71,61 @@ namespace Sample.Android
 
                 mainLayout.AddView(aButton);
             }
+        }
+
+
+        void GetRequestStreamCallback(IAsyncResult callbackResult)
+        {
+            HttpWebRequest webRequest = (HttpWebRequest)callbackResult.AsyncState;
+            Stream postStream = webRequest.EndGetRequestStream(callbackResult);
+
+            string requestBody = string.Format("");
+            //string requestBody = string.Format("grant_type=password&username={0}&password={1}", "admin", "admin@123");
+            byte[] byteArray = Encoding.UTF8.GetBytes(requestBody);
+
+            postStream.Write(byteArray, 0, byteArray.Length);
+            postStream.Close();
+
+            webRequest.BeginGetResponse(new AsyncCallback(GetResponseStreamCallback), webRequest);
+        }
+
+        void GetResponseStreamCallback(IAsyncResult callbackResult)
+        {
+            HttpWebRequest request = (HttpWebRequest)callbackResult.AsyncState;
+            HttpWebResponse response = (HttpWebResponse)request.EndGetResponse(callbackResult);
+            using (StreamReader httpWebStreamReader = new StreamReader(response.GetResponseStream()))
+            {
+                string result = httpWebStreamReader.ReadToEnd();
+            }
+        }
+
+        public WebRequest webRequestTeste()
+        {
+            string dbPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "Usuario2.db3");
+            var db = new SQLiteConnection(dbPath);
+            var dadosToken = db.Table<Token>();
+            var TokenAtual = dadosToken.Where(x => x.data_att_token >= DateTime.Now).FirstOrDefault();
+            db.Close();
+            System.Uri myUri = new System.Uri("http://192.168.17.102:13359/Api/GerenciamentoPatio/GetUnidadesUsuario");
+            var myWebRequest = WebRequest.Create(myUri);
+            var myHttpWebRequest = (HttpWebRequest)myWebRequest;
+            myHttpWebRequest.PreAuthenticate = true;
+            myHttpWebRequest.Headers.Add("Authorization", "Bearer " + TokenAtual.access_token);
+            myHttpWebRequest.Accept = "application/json";
+
+            var myWebResponse = myWebRequest.GetResponse();
+            var responseStream = myWebResponse.GetResponseStream();
+            if (responseStream == null) return null;
+
+            var myStreamReader = new StreamReader(responseStream, Encoding.Default);
+            var json = myStreamReader.ReadToEnd();
+
+            responseStream.Close();
+            myWebResponse.Close();
+
+            return null;
+
+                
         }
 
         private void BtnCriar_Click1(object sender, EventArgs e)
