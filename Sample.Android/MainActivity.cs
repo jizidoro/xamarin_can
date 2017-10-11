@@ -69,90 +69,62 @@ namespace Sample.Android
             postStream.Write(byteArray, 0, byteArray.Length);
             postStream.Close();
 
-            webRequest.BeginGetResponse(new AsyncCallback(GetResponseStreamCallback), webRequest);
-            string a;
-            for (int i = 0;i<10 ;i++ )
-            {
-                a = i.ToString();
-            }
-        }
+            var myWebResponse = webRequest.GetResponse();
+            var responseStream = myWebResponse.GetResponseStream();
 
-        void GetResponseStreamCallback(IAsyncResult callbackResult)
-        {
-            HttpWebRequest request = (HttpWebRequest)callbackResult.AsyncState;
-            HttpWebResponse response = (HttpWebResponse)request.EndGetResponse(callbackResult);
-            using (StreamReader httpWebStreamReader = new StreamReader(response.GetResponseStream()))
+            var myStreamReader = new StreamReader(responseStream, Encoding.Default);
+            var json = myStreamReader.ReadToEnd();
+
+            if (!string.IsNullOrEmpty(TokenUsuario))
             {
-                string result = httpWebStreamReader.ReadToEnd();
+                Token teste = JsonConvert.DeserializeObject<Token>(json);
+                teste.LoginId = txtUsuario.Text;
+                teste.data_att_token = DateTime.Now.AddSeconds(teste.expires_in);
+                var connection = new SQLiteAsyncConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "Usuario2.db3"));
+                connection.InsertOrReplaceAsync(teste);
+                TokenUsuario = teste.access_token;
                 if (!string.IsNullOrEmpty(TokenUsuario))
                 {
-                    Token teste = JsonConvert.DeserializeObject<Token>(result);
-                    teste.LoginId = txtUsuario.Text;
-                    teste.data_att_token = DateTime.Now.AddSeconds(teste.expires_in);
-                    var connection = new SQLiteAsyncConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "Usuario2.db3"));
-                    connection.UpdateAsync(teste);
-                    TokenUsuario = teste.access_token;
-                    if (!string.IsNullOrEmpty(TokenUsuario))
-                    {
-                        StartActivity(typeof(SelecionaArmazemActivity));
-                    }
-                    else
-                    {
-                        Toast.MakeText(this, "Nome do usuário e/ou Senha inválida(os)", ToastLength.Short).Show();
-                    }
+                    StartActivity(typeof(SelecionaArmazemActivity));
                 }
                 else
                 {
-                    Token teste = JsonConvert.DeserializeObject<Token>(result);
-                    teste.LoginId = txtUsuario.Text;
-                    teste.data_att_token = DateTime.Now.AddSeconds(teste.expires_in);
-                    var connection = new SQLiteAsyncConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "Usuario2.db3"));
-                    connection.InsertAsync(teste);
-                    TokenUsuario = teste.access_token;
-                    if (!string.IsNullOrEmpty(TokenUsuario))
-                    {
-                        StartActivity(typeof(SelecionaArmazemActivity));
-                    }
-                    else
-                    {
-                        Toast.MakeText(this, "Nome do usuário e/ou Senha inválida(os)", ToastLength.Short).Show();
-                    }
+                    Toast.MakeText(this, "Nome do usuário e/ou Senha inválida(os)", ToastLength.Short).Show();
                 }
             }
+            else
+            {
+                Token teste = JsonConvert.DeserializeObject<Token>(json);
+                teste.LoginId = txtUsuario.Text;
+                teste.data_att_token = DateTime.Now.AddSeconds(teste.expires_in);
+                var connection = new SQLiteAsyncConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "Usuario2.db3"));
+                connection.InsertOrReplaceAsync(teste);
+                TokenUsuario = teste.access_token;
+                if (!string.IsNullOrEmpty(TokenUsuario))
+                {
+                    StartActivity(typeof(SelecionaArmazemActivity));
+                }
+                else
+                {
+                    Toast.MakeText(this, "Nome do usuário e/ou Senha inválida(os)", ToastLength.Short).Show();
+                }
+            }
+
         }
+
+       
 
         private void BtnLogin_Click(object sender, EventArgs e)
         {
             try
             {
 
-                /*
-                string dbPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "Usuario2.db3");
-                var db = new SQLiteConnection(dbPath);
-                var dados = db.Table<Login>();
-                var dadosToken = db.Table<Token>();
-                var login = dados.Where(x => x.usuario == txtUsuario.Text && x.senha == txtSenha.Text).FirstOrDefault();
-                if (login != null)
-                {
-                    Login tblogin = new Login();
-                    tblogin.usuario = txtNovoUsuario.Text;
-                    tblogin.senha = txtSenhaNovoUsuario.Text;
-                    connection.InsertAsync(tblogin);
-                }
-                LoginId = login.id;
-                TokenUsuario = dadosToken.Where(x => x.LoginId == LoginId).FirstOrDefault().access_token;
-                */
-
-
-
                 System.Uri myUri = new System.Uri("http://192.168.17.102:13359/Token");
                 HttpWebRequest webRequest = (HttpWebRequest)HttpWebRequest.Create(myUri);
                 webRequest.Method = "POST";
                 webRequest.ContentType = "application/x-www-form-urlencoded";
-                lock (thisLock) //aqui da pra implementar um mutex mas  ..... tenta a sorte 
-                {
-                    webRequest.BeginGetRequestStream(new AsyncCallback(GetRequestStreamCallback), webRequest);
-                }
+                webRequest.BeginGetRequestStream(new AsyncCallback(GetRequestStreamCallback), webRequest);
+                
 
                 
             }

@@ -21,7 +21,6 @@ namespace Sample.Android
 
             webRequestTeste();
 
-
             var scrollView = new ScrollView(this)
             {
                 LayoutParameters =

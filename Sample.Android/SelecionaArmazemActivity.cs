@@ -4,6 +4,7 @@ using Android.Graphics;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
+using Newtonsoft.Json;
 using Sample.Android.Resources.Model;
 using SQLite;
 using System;
@@ -22,7 +23,10 @@ namespace Sample.Android
         {
             base.OnCreate(bundle);
 
-            ListAdapter = new ArrayAdapter<string>(this, Resource.Layout.HistoricoAlertas, countries);
+
+            webRequestTeste();
+
+            ListAdapter = new ArrayAdapter<string>(this,Resource.Layout.HistoricoAlertas, Armazens);
 
             ListView.TextFilterEnabled = true;
 
@@ -31,8 +35,18 @@ namespace Sample.Android
 
         private void Btn_ClickLista(object sender, AdapterView.ItemClickEventArgs args)
         {
-            Toast.MakeText(Application, ((TextView)args.View).Text, ToastLength.Short).Show();
-            StartActivity(typeof(VeiculosSituacaoOprActivity));
+
+            string dbPath = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "Usuario2.db3");
+            var db = new SQLiteConnection(dbPath);
+            var dadosToken = db.Table<Token>();
+            var TokenAtual = dadosToken.Where(x => x.data_att_token >= DateTime.Now).FirstOrDefault();
+            TokenAtual.ArmazemId = IdArmazens[args.Position].ToString();
+            db.InsertOrReplace(TokenAtual);
+            db.Close();
+
+
+            Toast.MakeText(Application, Armazens[args.Position] , ToastLength.Short).Show();
+            StartActivity(typeof(LoginActivity));
         }
 
         public WebRequest webRequestTeste()
@@ -59,33 +73,24 @@ namespace Sample.Android
             responseStream.Close();
             myWebResponse.Close();
 
-            return null;
+
+            var teste = JsonConvert.DeserializeObject<Empresa>(json);
+
+            foreach (var item in teste.ListaArmazens)
+            {
+                Armazens.Add(item.Denominacao);
+                IdArmazens.Add(Convert.ToInt32(item.ArmazemId));
+            }
+            
+
+
+            return myWebRequest;
 
 
         }
 
-        static readonly string[] countries = new String[] {
-            "Martinique","Mauritania","Mauritius","Mayotte","Mexico","Micronesia","Moldova",
-            "Monaco","Mongolia","Montserrat","Morocco","Mozambique","Myanmar","Namibia",
-            "Nauru","Nepal","Netherlands","Netherlands Antilles","New Caledonia","New Zealand",
-            "Nicaragua","Niger","Nigeria","Niue","Norfolk Island","North Korea","Northern Marianas",
-            "Norway","Oman","Pakistan","Palau","Panama","Papua New Guinea","Paraguay","Peru",
-            "Philippines","Pitcairn Islands","Poland","Portugal","Puerto Rico","Qatar",
-            "Reunion","Romania","Russia","Rwanda","Sqo Tome and Principe","Saint Helena",
-            "Saint Kitts and Nevis","Saint Lucia","Saint Pierre and Miquelon",
-            "Saint Vincent and the Grenadines","Samoa","San Marino","Saudi Arabia","Senegal",
-            "Seychelles","Sierra Leone","Singapore","Slovakia","Slovenia","Solomon Islands",
-            "Somalia","South Africa","South Georgia and the South Sandwich Islands","South Korea",
-            "Spain","Sri Lanka","Sudan","Suriname","Svalbard and Jan Mayen","Swaziland","Sweden",
-            "Switzerland","Syria","Taiwan","Tajikistan","Tanzania","Thailand","The Bahamas",
-            "The Gambia","Togo","Tokelau","Tonga","Trinidad and Tobago","Tunisia","Turkey",
-            "Turkmenistan","Turks and Caicos Islands","Tuvalu","Virgin Islands","Uganda",
-            "Ukraine","United Arab Emirates","United Kingdom",
-            "United States","United States Minor Outlying Islands","Uruguay","Uzbekistan",
-            "Vanuatu","Vatican City","Venezuela","Vietnam","Wallis and Futuna","Western Sahara",
-            "Yemen","Yugoslavia","Zambia","Zimbabwe"
-          };
-
+        public List<string> Armazens = new List<string>();
+        public List<int> IdArmazens = new List<int>();
     }
 }
 

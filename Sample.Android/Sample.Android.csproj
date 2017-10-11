@@ -142,6 +142,8 @@
     <Compile Include="AlterarSituacaoActivity.cs" />
     <Compile Include="ConfiguracaoActivity.cs" />
     <Compile Include="HistoricoAlertasActivity.cs" />
+    <Compile Include="Resources\Model\Empresa.cs" />
+    <Compile Include="Resources\Model\Armazem.cs" />
     <Compile Include="SelecionaArmazemActivity.cs" />
     <Compile Include="LoginActivity.cs" />
     <Compile Include="MainActivity.cs" />
@@ -169,7 +171,9 @@
     </AndroidResource>
     <AndroidResource Include="Resources\values\Strings.xml" />
     <AndroidResource Include="Resources\drawable\Icon.png" />
-    <AndroidResource Include="Resources\layout\ZxingOverlay.xml" />
+    <AndroidResource Include="Resources\layout\ZxingOverlay.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
     <AndroidResource Include="Resources\drawable-hdpi\launcher.png" />
     <AndroidResource Include="Resources\drawable-mdpi\launcher.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\launcher.png" />
@@ -209,6 +213,7 @@
   <ItemGroup>
     <AndroidResource Include="Resources\layout\SelecionaArmazem.xml" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.23.3.0\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.23.3.0\build\Xamarin.Android.Support.Vector.Drawable.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
