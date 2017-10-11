@@ -17,7 +17,7 @@ namespace Sample.Android.Resources.Model
 
         public override string ToString()
         {
-            return string.Format("[Empresa:id={1}, empresaId={1}, denominacao={2}]", id, empresaId, denominacao);
+            return string.Format("[Empresa:id={0}, empresaId={1}, denominacao={2}]", id, empresaId, denominacao);
         }
     }
 

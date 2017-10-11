@@ -21,7 +21,7 @@ namespace Sample.Android.Resources.Model
 
         public override string ToString()
         {
-            return string.Format("[Armazem:id={1}, armazemId={1}, denominacao={2}, latitude={3}, longitude={4}]", id, armazemId, denominacao, latitude, longitude);
+            return string.Format("[Armazem:id={0}, armazemId={1}, denominacao={2}, latitude={3}, longitude={4}]", id, armazemId, denominacao, latitude, longitude);
         }
     }
 

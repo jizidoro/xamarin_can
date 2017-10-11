@@ -36,7 +36,7 @@ namespace Sample.Android
 
             btnLogin.Click += BtnLogin_Click;
 
-            string dbPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha1.db3");
+            string dbPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha3.db3");
             var db = new SQLiteConnection(dbPath);
             var dadosToken = db.Table<Token>();
             
@@ -80,7 +80,7 @@ namespace Sample.Android
                 Token teste = JsonConvert.DeserializeObject<Token>(json);
                 teste.loginId = txtUsuario.Text;
                 teste.data_att_token = DateTime.Now.AddSeconds(teste.expires_in);
-                var connection = new SQLiteAsyncConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha1.db3"));
+                var connection = new SQLiteAsyncConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha3.db3"));
                 connection.InsertOrReplaceAsync(teste);
                 TokenUsuario = teste.access_token;
                 if (!string.IsNullOrEmpty(TokenUsuario))
@@ -97,7 +97,7 @@ namespace Sample.Android
                 Token teste = JsonConvert.DeserializeObject<Token>(json);
                 teste.loginId = txtUsuario.Text;
                 teste.data_att_token = DateTime.Now.AddSeconds(teste.expires_in);
-                var connection = new SQLiteAsyncConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha1.db3"));
+                var connection = new SQLiteAsyncConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha3.db3"));
                 connection.InsertOrReplaceAsync(teste);
                 TokenUsuario = teste.access_token;
                 if (!string.IsNullOrEmpty(TokenUsuario))
@@ -138,7 +138,7 @@ namespace Sample.Android
         {
             try
             {
-                var connection = new SQLiteAsyncConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha1.db3"));
+                var connection = new SQLiteAsyncConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha3.db3"));
                 connection.CreateTableAsync<Login>();
                 connection.CreateTableAsync<Token>();
                 connection.CreateTableAsync<Empresa>();

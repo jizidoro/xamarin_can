@@ -139,6 +139,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AlterarSituacaoOprActivity.cs" />
     <Compile Include="AlterarSituacaoActivity.cs" />
     <Compile Include="ConfiguracaoActivity.cs" />
     <Compile Include="HistoricoAlertasActivity.cs" />
@@ -153,7 +154,7 @@
     <Compile Include="Resources\Model\Login.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="AlterarSituacaoOprActivity.cs" />
+    <Compile Include="AlterarSituacaoQrCodeActivity.cs" />
     <Compile Include="FragmentActivity.cs" />
     <Compile Include="ImageActivity.cs" />
     <Compile Include="VeiculosSituacaoActivity.cs" />
@@ -211,7 +212,7 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\VeiculosSituacaoOpr.xml" />
+    <AndroidResource Include="Resources\layout\AlterarSituacaoQrCode.xml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\SelecionaArmazem.xml" />

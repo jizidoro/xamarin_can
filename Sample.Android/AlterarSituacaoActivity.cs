@@ -9,7 +9,7 @@ using System.Collections.Generic;
 
 namespace Sample.Android
 {
-    
+
     [Activity(Label = "AlterarSituacaoActivity")]
     public class AlterarSituacaoActivity : Activity
     {
@@ -34,13 +34,13 @@ namespace Sample.Android
         private void BtnCriar_Click(object sender, EventArgs e)
         {
             //Toast.MakeText(this, "Registro incluído com sucesso...,", ToastLength.Short).Show();
-            StartActivity(typeof(AlterarSituacaoActivity));
+            StartActivity(typeof(AlterarSituacaoOprActivity));
         }
 
         private void btnQr_Click(object sender, EventArgs e)
         {
             //Toast.MakeText(this, "Registro incluído com sucesso...,", ToastLength.Short).Show();
-            StartActivity(typeof(AlterarSituacaoOprActivity));
+            StartActivity(typeof(AlterarSituacaoQrCodeActivity));
         }
 
     }

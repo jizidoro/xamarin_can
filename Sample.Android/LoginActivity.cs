@@ -23,7 +23,7 @@ namespace Sample.Android
 
             webRequestTeste();
 
-            string dbPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha1.db3");
+            string dbPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha3.db3");
             var db = new SQLiteConnection(dbPath);
             var dadosToken = db.Table<Token>();
             var dadosPermissao = db.Table<Permissao>();
@@ -114,7 +114,7 @@ namespace Sample.Android
 
         public WebRequest webRequestTeste()
         {
-            string dbPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha1.db3");
+            string dbPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha3.db3");
             var db = new SQLiteConnection(dbPath);
             var dadosToken = db.Table<Token>();
             var TokenAtual = dadosToken.Where(x => x.data_att_token >= DateTime.Now).FirstOrDefault();

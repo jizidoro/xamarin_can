@@ -35,7 +35,7 @@ namespace Sample.Android
         private void Btn_ClickLista(object sender, AdapterView.ItemClickEventArgs args)
         {
 
-            string dbPath = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha1.db3");
+            string dbPath = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha3.db3");
             var db = new SQLiteConnection(dbPath);
             var dadosToken = db.Table<Token>();
             var TokenAtual = dadosToken.Where(x => x.data_att_token >= DateTime.Now).FirstOrDefault();
@@ -50,7 +50,7 @@ namespace Sample.Android
 
         public WebRequest webRequestTeste()
         {
-            string dbPath = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha1.db3");
+            string dbPath = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha3.db3");
             var db = new SQLiteConnection(dbPath);
             var dadosToken = db.Table<Token>();
             var TokenAtual = dadosToken.Where(x => x.data_att_token >= DateTime.Now).FirstOrDefault();
@@ -75,20 +75,24 @@ namespace Sample.Android
 
             var teste = JsonConvert.DeserializeObject<Empresa>(json);
 
-            var connection = new SQLiteAsyncConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha1.db3"));
-
+            var connection = new SQLiteAsyncConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha3.db3"));
+            connection.ExecuteAsync("DELETE FROM Permissao");
+            connection.ExecuteAsync("DELETE FROM Empresa");
+            connection.ExecuteAsync("DELETE FROM Armazem");
             foreach (var item in teste.ListaArmazens)
             {
                 Armazens.Add(item.denominacao);
                 IdArmazens.Add(Convert.ToInt32(item.armazemId));
+                item.id = Convert.ToInt32(item.armazemId);
                 connection.InsertOrReplaceAsync(item);
                 foreach (var subitem in item.ListaPermissoes)
                 {
+                    subitem.id = Convert.ToInt32(subitem.rotinaId);
                     subitem.armazemId = item.armazemId;
                     connection.InsertOrReplaceAsync(subitem);
                 }
             }
-            
+            teste.id = Convert.ToInt32(teste.empresaId);
             connection.InsertOrReplaceAsync(teste);
 
             return myWebRequest;
