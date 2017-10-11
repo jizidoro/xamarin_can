@@ -1,27 +1,23 @@
-﻿using System.Collections.Generic;
-using SQLite;
+﻿using SQLite;
 
 namespace Sample.Android.Resources.Model
 {
 
-    public class Armazem
+    public class Permissao
     {
+        
+
         [PrimaryKey]
         public int? id { get; set; }
 
-        public string armazemId { get; set; }
-        
+        public string rotinaId { get; set; }
         public string denominacao { get; set; }
-        
-        public string latitude { get; set; }
-
-        public string longitude { get; set; }
-
-        public List<Permissao> ListaPermissoes { get; set; }
+        public string acesso { get; set; }
+        public string armazemId { get; set; }
 
         public override string ToString()
         {
-            return string.Format("[Armazem:id={1}, armazemId={1}, denominacao={2}, latitude={3}, longitude={4}]", id, armazemId, denominacao, latitude, longitude);
+            return string.Format("[permissao:id={1}, rotinaId={1}, denominacao={2}, acesso={3}, armazemId={4}]", id, rotinaId, denominacao, acesso, armazemId);
         }
     }
 

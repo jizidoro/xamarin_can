@@ -142,6 +142,7 @@
     <Compile Include="AlterarSituacaoActivity.cs" />
     <Compile Include="ConfiguracaoActivity.cs" />
     <Compile Include="HistoricoAlertasActivity.cs" />
+    <Compile Include="Resources\Model\Permissao.cs" />
     <Compile Include="Resources\Model\Empresa.cs" />
     <Compile Include="Resources\Model\Armazem.cs" />
     <Compile Include="SelecionaArmazemActivity.cs" />
@@ -205,7 +206,9 @@
     <AndroidResource Include="Resources\layout\NovoUsuario.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\VeiculosSituacao.xml" />
+    <AndroidResource Include="Resources\layout\VeiculosSituacao.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\VeiculosSituacaoOpr.xml" />

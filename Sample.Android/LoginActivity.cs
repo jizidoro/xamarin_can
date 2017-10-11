@@ -6,7 +6,9 @@ using Android.Widget;
 using Sample.Android.Resources.Model;
 using SQLite;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text;
 
@@ -20,6 +22,17 @@ namespace Sample.Android
             base.OnCreate(bundle);
 
             webRequestTeste();
+
+            string dbPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha1.db3");
+            var db = new SQLiteConnection(dbPath);
+            var dadosToken = db.Table<Token>();
+            var dadosPermissao = db.Table<Permissao>();
+
+            var TokenAtual = dadosToken.Where(x => x.data_att_token >= DateTime.Now).FirstOrDefault();
+            var permissoes = dadosPermissao.Where(x => x.armazemId == TokenAtual.armazemId).ToList();
+            db.Close();
+
+            
 
             var scrollView = new ScrollView(this)
             {
@@ -39,37 +52,38 @@ namespace Sample.Android
 
             scrollView.AddView(mainLayout);
 
-            for (int n = 1; n < 5; n++)
+            for (int n = 0; n < permissoes.Count ; n++)
             {
                 var aButton = new Button(this);
-
-
-                switch (n)
+                
+                switch (permissoes[n].denominacao)
                 {
-                    case 1:
+                    case "AppPatioAlterarSitucao":
                         aButton.Text = "Alterar Situação";
                         aButton.Click += BtnCriar_Click1;
                         break;
-                    case 2:
+                    case "AppPatioVeiculoSituacao":
                         aButton.Text = "Veiculos por Situação";
                         aButton.Click += BtnCriar_Click2;
                         break;
-                    case 3:
+                    case "AppPatioHistoricoAlertas":
                         aButton.Text = "Historico de Alertas";
                         aButton.Click += BtnCriar_Click3;
-                        break;
-                    case 4:
-                        aButton.Text = "Configuração";
-                        aButton.Click += BtnCriar_Click4;
                         break;
                     default:
                         Console.WriteLine("Default case");
                         break;
                 }
 
+                
 
                 mainLayout.AddView(aButton);
             }
+
+            var configButton = new Button(this);
+            configButton.Text = "Configuração";
+            configButton.Click += BtnCriar_Click4;
+            mainLayout.AddView(configButton);
         }
 
 
@@ -100,7 +114,7 @@ namespace Sample.Android
 
         public WebRequest webRequestTeste()
         {
-            string dbPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "Usuario2.db3");
+            string dbPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha1.db3");
             var db = new SQLiteConnection(dbPath);
             var dadosToken = db.Table<Token>();
             var TokenAtual = dadosToken.Where(x => x.data_att_token >= DateTime.Now).FirstOrDefault();

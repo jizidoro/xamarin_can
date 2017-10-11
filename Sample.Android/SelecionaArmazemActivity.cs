@@ -1,6 +1,5 @@
 ﻿using Android.App;
 using Android.Content;
-using Android.Graphics;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
@@ -36,11 +35,11 @@ namespace Sample.Android
         private void Btn_ClickLista(object sender, AdapterView.ItemClickEventArgs args)
         {
 
-            string dbPath = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "Usuario2.db3");
+            string dbPath = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha1.db3");
             var db = new SQLiteConnection(dbPath);
             var dadosToken = db.Table<Token>();
             var TokenAtual = dadosToken.Where(x => x.data_att_token >= DateTime.Now).FirstOrDefault();
-            TokenAtual.ArmazemId = IdArmazens[args.Position].ToString();
+            TokenAtual.armazemId = IdArmazens[args.Position].ToString();
             db.InsertOrReplace(TokenAtual);
             db.Close();
 
@@ -51,7 +50,7 @@ namespace Sample.Android
 
         public WebRequest webRequestTeste()
         {
-            string dbPath = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "Usuario2.db3");
+            string dbPath = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha1.db3");
             var db = new SQLiteConnection(dbPath);
             var dadosToken = db.Table<Token>();
             var TokenAtual = dadosToken.Where(x => x.data_att_token >= DateTime.Now).FirstOrDefault();
@@ -76,13 +75,21 @@ namespace Sample.Android
 
             var teste = JsonConvert.DeserializeObject<Empresa>(json);
 
+            var connection = new SQLiteAsyncConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha1.db3"));
+
             foreach (var item in teste.ListaArmazens)
             {
-                Armazens.Add(item.Denominacao);
-                IdArmazens.Add(Convert.ToInt32(item.ArmazemId));
+                Armazens.Add(item.denominacao);
+                IdArmazens.Add(Convert.ToInt32(item.armazemId));
+                connection.InsertOrReplaceAsync(item);
+                foreach (var subitem in item.ListaPermissoes)
+                {
+                    subitem.armazemId = item.armazemId;
+                    connection.InsertOrReplaceAsync(subitem);
+                }
             }
             
-
+            connection.InsertOrReplaceAsync(teste);
 
             return myWebRequest;
 

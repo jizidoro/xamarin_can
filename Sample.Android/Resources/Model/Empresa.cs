@@ -6,18 +6,18 @@ namespace Sample.Android.Resources.Model
 
     public class Empresa
     {
-        [PrimaryKey, AutoIncrement]
-        public int? Id { get; set; }
+        [PrimaryKey]
+        public int? id { get; set; }
 
-        public string EmpresaId { get; set; }
+        public string empresaId { get; set; }
         
-        public string Denominacao { get; set; }
+        public string denominacao { get; set; }
 
         public List<Armazem> ListaArmazens { get; set; }
 
         public override string ToString()
         {
-            return string.Format("[Empresa:Id={0}, EmpresaId={1}, Denominacao={2}]", Id, EmpresaId, Denominacao);
+            return string.Format("[Empresa:id={1}, empresaId={1}, denominacao={2}]", id, empresaId, denominacao);
         }
     }
 
