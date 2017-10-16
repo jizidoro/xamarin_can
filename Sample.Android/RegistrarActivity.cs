@@ -20,7 +20,7 @@ namespace Sample.Android
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.NovoUsuario);
 
-            btnCriarNovoUsuario = FindViewById<Button>(Resource.Id.btnRegistrar);
+            btnCriarNovoUsuario = FindViewById<Button>(Resource.Id.btnConfigurar);
             txtNovoUsuario = FindViewById<EditText>(Resource.Id.txtNovoUsuario);
             txtSenhaNovoUsuario = FindViewById<EditText>(Resource.Id.txtSenhaNovoUsuario);
 
@@ -31,7 +31,7 @@ namespace Sample.Android
         {
             try
             {
-                var connection = new SQLiteAsyncConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha3.db3"));
+                var connection = new SQLiteAsyncConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha4.db3"));
                 //connection.CreateTableAsync<Login>();
 
                 Login tblogin = new Login();

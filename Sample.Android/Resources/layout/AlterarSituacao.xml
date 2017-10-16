@@ -14,7 +14,7 @@
       android:text="Buscar"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:id="@+id/btnRegistrar" />
+      android:id="@+id/buttonOpr" />
   <Button
     android:text="qr code"
     android:layout_width="match_parent"

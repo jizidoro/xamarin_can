@@ -23,7 +23,10 @@ namespace Sample.Android
 
             webRequestTeste();
 
-            string dbPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha3.db3");
+            string dbPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha4.db3");
+            var db2 = new SQLiteConnection(dbPath);
+            db2.Close();
+            
             var db = new SQLiteConnection(dbPath);
             var dadosToken = db.Table<Token>();
             var dadosPermissao = db.Table<Permissao>();
@@ -114,11 +117,15 @@ namespace Sample.Android
 
         public WebRequest webRequestTeste()
         {
-            string dbPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha3.db3");
+            string dbPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha4.db3");
+            var db2 = new SQLiteConnection(dbPath);
+            db2.Close();
+            
             var db = new SQLiteConnection(dbPath);
             var dadosToken = db.Table<Token>();
             var TokenAtual = dadosToken.Where(x => x.data_att_token >= DateTime.Now).FirstOrDefault();
             db.Close();
+            
             System.Uri myUri = new System.Uri("http://192.168.17.102:13359/Api/GerenciamentoPatio/GetUnidadesUsuario");
             var myWebRequest = WebRequest.Create(myUri);
             var myHttpWebRequest = (HttpWebRequest)myWebRequest;

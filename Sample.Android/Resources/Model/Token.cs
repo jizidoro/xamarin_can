@@ -33,6 +33,11 @@ namespace Sample.Android.Resources.Model
 
         public int expires_in { get; set; }
 
+        //"error": "invalid_grant",
+        public string error { get; set; }
+        //"error_description": "The user name or password is incorrect."
+        public string error_description { get; set; }
+
         public DateTime data_att_token { get; set; }
 
         public override string ToString()

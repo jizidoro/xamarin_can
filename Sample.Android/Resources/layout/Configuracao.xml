@@ -6,13 +6,22 @@
     android:minWidth="25px"
     android:minHeight="25px">
   <EditText
-        android:hint="Endereco"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/txtUsuario" />
-  <Button
-    android:text="Salvar"
+    android:id="@+id/txtEndereco"
+    android:hint="Endereço do servidor"
+    android:inputType="number|numberDecimal"
+    android:digits="0123456789."
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"/>
+  <EditText
+    android:hint="Porta do servidor"
+    android:inputType="number|numberDecimal"
+    android:digits="0123456789."
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/btnRegistrar" />
+    android:id="@+id/txtPorta"/>
+  <Button
+    android:text="Configurar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/btnConfigurar" />
 </LinearLayout>

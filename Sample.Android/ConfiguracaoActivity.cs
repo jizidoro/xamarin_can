@@ -1,53 +1,71 @@
 ﻿using Android.App;
-using Android.Content;
-using Android.Graphics;
 using Android.OS;
-using Android.Views;
 using Android.Widget;
+using Newtonsoft.Json;
+using Sample.Android.Resources.Model;
+using SQLite;
 using System;
-using System.Collections.Generic;
+using System.IO;
+using System.Net;
+using System.Text;
 
 namespace Sample.Android
 {
-    
+
     [Activity(Label = "ConfiguracaoActivity")]
     public class ConfiguracaoActivity : Activity
     {
-        Button btnCriar;
+        Button btnConfigurar;
+        EditText txtEndereco;
+        EditText txtPorta;
+        string TokenUsuario { get; set; }
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 
             SetContentView(Resource.Layout.Configuracao);
 
-            btnCriar = FindViewById<Button>(Resource.Id.btnRegistrar);
-            btnCriar.Click += BtnCriar_Click;
+            txtPorta = FindViewById<EditText>(Resource.Id.txtPorta);
+            txtEndereco = FindViewById<EditText>(Resource.Id.txtEndereco);
+            
+
+            btnConfigurar = FindViewById<Button>(Resource.Id.btnConfigurar);
+            btnConfigurar.Click += BtnConfigurar_Click;
+
+            string dbPath = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha4.db3");
+            var db2 = new SQLiteConnection(dbPath);
+            db2.Close();
+
+            var db = new SQLiteConnection(dbPath);
+            var dadosConfiguracao = db.Table<Configuracao>();
+
+            var configuracao = dadosConfiguracao.FirstOrDefault();
+            db.Close();
+
+            if (configuracao != null)
+            {
+                var repartidor = configuracao.endereco.Split(':');
+                txtEndereco.Text = repartidor[0];
+                txtPorta.Text = repartidor[1];
+            }
 
         }
 
-        private void BtnCriar_Click(object sender, EventArgs e)
+
+        private void BtnConfigurar_Click(object sender, EventArgs e)
         {
-            //Toast.MakeText(this, "Registro incluído com sucesso...,", ToastLength.Short).Show();
-            StartActivity(typeof(ConfiguracaoActivity));
-        }
+            var connection = new SQLiteAsyncConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha4.db3"));
+            connection.ExecuteAsync("DELETE FROM Configuracao");
 
+
+
+            Configuracao configuracao = new Configuracao();
+            configuracao.endereco = txtEndereco.Text+":"+ txtPorta.Text;
+            connection.InsertOrReplaceAsync(configuracao);
+
+            new ConfiguracaoTask(this).Execute("admin", "teste_configuracao_endereco");
+            Finish();
+        }
     }
 }
-
-/*
-var layout = new LinearLayout(this);
-layout.Orientation = Orientation.Vertical;
-
-            var aLabel = new TextView(this);
-aLabel.Text = "Hello, World!!!";
-
-            var aButton = new Button(this);
-aButton.Text = "Say Hello!";
-
-aButton.Click += (sender, e) =>
-{ aLabel.Text = "Hello Android!"; };
-
-layout.AddView(aLabel);
-layout.AddView(aButton);
-SetContentView(layout);
-*/
