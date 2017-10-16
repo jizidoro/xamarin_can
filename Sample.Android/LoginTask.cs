@@ -17,6 +17,8 @@ public class LoginTask : AsyncTask
     string usuario, senha;
     WebResponse myWebResponse = null;
 
+    public bool TokenAtual = false;
+
     public LoginTask(Context context)
     {
         _context = context;
@@ -37,7 +39,7 @@ public class LoginTask : AsyncTask
         string dbPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha4.db3");
         var db2 = new SQLiteConnection(dbPath);
         db2.Close();
-        
+
         var db = new SQLiteConnection(dbPath);
         var dadosConfiguracao = db.Table<Configuracao>();
 
@@ -47,6 +49,7 @@ public class LoginTask : AsyncTask
         if (configuracao == null)
         {
             _context.StartActivity(typeof(ConfiguracaoActivity));
+            TokenAtual = true;
         }
 
         try
@@ -84,6 +87,7 @@ public class LoginTask : AsyncTask
             if (string.IsNullOrEmpty(teste.error))
             {
                 connection.InsertOrReplaceAsync(teste);
+                _context.StartActivity(typeof(SelecionaArmazemActivity));
             }
         }
         catch (WebException e)
@@ -110,22 +114,6 @@ public class LoginTask : AsyncTask
         base.OnPostExecute(result);
         
         _progressDialog.Hide();
-
-        string dbPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha4.db3");
-        var db2 = new SQLiteConnection(dbPath);
-        db2.Close();
-        
-        var db = new SQLiteConnection(dbPath);
-        var dadosToken = db.Table<Token>();
-
-        var TokenAtual = dadosToken.Where(x => x.data_att_token >= DateTime.Now).FirstOrDefault();
-        db.Close();
-        if (TokenAtual != null)
-        {
-            if (!string.IsNullOrEmpty(TokenAtual.access_token))
-            {
-                _context.StartActivity(typeof(SelecionaArmazemActivity));
-            }
-        }
     }
+
 }

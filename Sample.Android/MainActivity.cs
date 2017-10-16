@@ -25,14 +25,17 @@ namespace Sample.Android
             SetContentView(Resource.Layout.Main);
 
             createDatabase();
-
+            string dbPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha4.db3");
+            var db2 = new SQLiteConnection(dbPath); db2.Close();
             _progressDialog = new ProgressDialog(this) { Indeterminate = true };
             _progressDialog.SetTitle("Carregando");
 
-            string dbPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha4.db3");
-            //var db3 = new SQLiteAsyncConnection(dbPath);
-            //var dadosTokenAsync = db3.Table<Token>();
-
+            
+            /*
+            var db3 = new SQLiteAsyncConnection(dbPath);
+            var dadosTokenAsync = db3.Table<Token>();
+            var TokenAtualAsync = await dadosTokenAsync.Where(x => x.data_att_token >= DateTime.Now).FirstOrDefaultAsync();
+            */
 
             btnLogin = FindViewById<Button>(Resource.Id.btnLogin);
             txtUsuario = FindViewById<EditText>(Resource.Id.txtUsuario);
@@ -43,7 +46,8 @@ namespace Sample.Android
 
             btnLogin.Click += BtnLogin_Click;
             
-            var db2 = new SQLiteConnection(dbPath);db2.Close();
+            
+
             var db = new SQLiteConnection(dbPath);
             var dadosToken = db.Table<Token>();
             
@@ -64,7 +68,6 @@ namespace Sample.Android
         private void BtnConfigurar_Click(object sender, EventArgs e)
         {
             StartActivity(typeof(ConfiguracaoActivity));
-            Finish();
         }
 
 
@@ -93,10 +96,14 @@ namespace Sample.Android
                 connection.CreateTableAsync<Armazem>();
                 connection.CreateTableAsync<Permissao>();
                 connection.CreateTableAsync<Configuracao>();
+                connection.CreateTableAsync<Cesv>();
+                connection.CreateTableAsync<Status>();
 
                 connection.ExecuteAsync("DELETE FROM Permissao");
                 connection.ExecuteAsync("DELETE FROM Empresa");
                 connection.ExecuteAsync("DELETE FROM Armazem");
+                connection.ExecuteAsync("DELETE FROM Cesv");
+                connection.ExecuteAsync("DELETE FROM Status");
 
                 //Toast.MakeText(this, "Database created", ToastLength.Short).Show();
                 return "Database created";

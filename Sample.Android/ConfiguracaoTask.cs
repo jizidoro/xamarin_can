@@ -15,7 +15,6 @@ public class ConfiguracaoTask : AsyncTask
     private ProgressDialog _progressDialog;
     private Context _context;
     string usuario, senha;
-    bool ConexaoOk = false;
     WebResponse myWebResponse = null;
 
     public ConfiguracaoTask(Context context)
@@ -47,19 +46,10 @@ public class ConfiguracaoTask : AsyncTask
 
         try
         {
-            string url = "http://" + configuracao.endereco + "/Token";
+            string url = "http://" + configuracao.endereco + "/Api/GerenciamentoPatio/GetApiVersion";
             System.Uri myUri = new System.Uri(url);
             HttpWebRequest myWebRequest = (HttpWebRequest)HttpWebRequest.Create(myUri);
-            myWebRequest.Method = "POST";
-            myWebRequest.ContentType = "application/x-www-form-urlencoded";
-
-            Stream postStream = myWebRequest.GetRequestStream();
-
-            string requestBody = string.Format("grant_type=password&username={0}&password={1}", usuario, senha);
-            byte[] byteArray = Encoding.UTF8.GetBytes(requestBody);
-
-            postStream.Write(byteArray, 0, byteArray.Length);
-            postStream.Close();
+            myWebRequest.Method = "GET";
 
             myWebResponse = myWebRequest.GetResponse();
             var responseStream = myWebResponse.GetResponseStream();
@@ -69,8 +59,7 @@ public class ConfiguracaoTask : AsyncTask
 
             responseStream.Close();
             myWebResponse.Close();
-
-            ConexaoOk = true;
+            
 
 
         }
@@ -99,31 +88,5 @@ public class ConfiguracaoTask : AsyncTask
         
         _progressDialog.Hide();
 
-        string dbPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha4.db3");
-        var db2 = new SQLiteConnection(dbPath);
-        db2.Close();
-        
-        var db1 = new SQLiteConnection(dbPath);
-        var dadosConfiguracao = db1.Table<Configuracao>();
-        var configuracao = dadosConfiguracao.FirstOrDefault();
-        db1.Close();
-
-        if (ConexaoOk)
-        {
-            new AlertDialog.Builder(_context)
-            .SetTitle("Falha na autenticação.")
-            .SetMessage("Suas configurações de endereço estão incorretas ou o servidor esta indisponivel.")
-            .Show();
-            _context.StartActivity(typeof(ConfiguracaoActivity));
-
-        }
-        else
-        {
-            new AlertDialog.Builder(_context)
-            .SetTitle("Configuração concluida")
-            .SetMessage("Redirecionando para o Configuracao!")
-            .Show();
-            _context.StartActivity(typeof(MainActivity));
-        }
     }
 }

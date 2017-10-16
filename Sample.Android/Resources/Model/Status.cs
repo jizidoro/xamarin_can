@@ -15,6 +15,8 @@ namespace Sample.Android.Resources.Model
         
         public string cor { get; set; }
 
+        public List<Cesv> ListaCesv { get; set; }
+
         public override string ToString()
         {
             return string.Format("[Status:id={0}, statusId={1}, denominacao={2}, cor={3}]", id, statusId, denominacao, cor);

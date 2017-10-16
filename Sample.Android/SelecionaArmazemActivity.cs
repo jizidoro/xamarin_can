@@ -1,7 +1,5 @@
 ﻿using Android.App;
-using Android.Content;
 using Android.OS;
-using Android.Views;
 using Android.Widget;
 using Newtonsoft.Json;
 using Sample.Android.Resources.Model;
@@ -58,11 +56,16 @@ namespace Sample.Android
             db2.Close();
             
             var db = new SQLiteConnection(dbPath);
+            var dadosConfiguracao = db.Table<Configuracao>();
             var dadosToken = db.Table<Token>();
+            var configuracao = dadosConfiguracao.FirstOrDefault();
             var TokenAtual = dadosToken.Where(x => x.data_att_token >= DateTime.Now).FirstOrDefault();
             db.Close();
-            System.Uri myUri = new System.Uri("http://192.168.17.102:13359/Api/GerenciamentoPatio/GetUnidadesUsuario");
-            var myWebRequest = WebRequest.Create(myUri);
+
+            string url = "http://" + configuracao.endereco + "/Api/GerenciamentoPatio/GetUnidadesUsuario";
+            System.Uri myUri = new System.Uri(url);
+            HttpWebRequest myWebRequest = (HttpWebRequest)HttpWebRequest.Create(myUri);
+            
             var myHttpWebRequest = (HttpWebRequest)myWebRequest;
             myHttpWebRequest.PreAuthenticate = true;
             myHttpWebRequest.Headers.Add("Authorization", "Bearer " + TokenAtual.access_token);
@@ -108,20 +111,3 @@ namespace Sample.Android
     }
 }
 
-/*
-var layout = new LinearLayout(this);
-layout.Orientation = Orientation.Vertical;
-
-            var aLabel = new TextView(this);
-aLabel.Text = "Hello, World!!!";
-
-            var aButton = new Button(this);
-aButton.Text = "Say Hello!";
-
-aButton.Click += (sender, e) =>
-{ aLabel.Text = "Hello Android!"; };
-
-layout.AddView(aLabel);
-layout.AddView(aButton);
-SetContentView(layout);
-*/
