@@ -50,8 +50,11 @@ namespace Sample.Android
 
             var db = new SQLiteConnection(dbPath);
             var dadosToken = db.Table<Token>();
-            
-            var TokenAtual = dadosToken.Where(x => x.data_att_token >= DateTime.Now).FirstOrDefault();
+            Token TokenAtual = null;
+            if (dadosToken.Count() > 0)
+            {
+                TokenAtual = dadosToken.Where(x => x.data_att_token >= DateTime.Now).FirstOrDefault();
+            }
             db.Close();
             if (TokenAtual != null)
             {

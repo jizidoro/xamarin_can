@@ -18,52 +18,40 @@ namespace Sample.Android
     public class VeiculosSituacaoOprActivity : ListActivity
     {
         string dbPath = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha4.db3");
-        string configuracaoEndereco = "";
-        string AccessToken = "";
-
-        protected override void OnCreate(Bundle bundle)
+        protected async override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
 
+            var db = new SQLiteAsyncConnection(dbPath);
+            var dadosToken = db.Table<Token>();
+            var dadosCesv = db.Table<Cesv>();
+            var TokenAtual = await dadosToken.Where(x => x.data_att_token >= DateTime.Now).FirstOrDefaultAsync();
+            var ListaCesv = await dadosCesv.Where(x => x.statusInicio == TokenAtual.statusId).ToListAsync();
 
+            
 
-            ListAdapter = new ArrayAdapter<string>(this, Resource.Layout.VeiculosSituacao, Cesvs);
+            foreach (var item in ListaCesv)
+            {
+                Cesv.Add(item.numero);
+                IdCesv.Add(Convert.ToInt32(item.cesvId));
+            }
+
+            ListAdapter = new ArrayAdapter<string>(this, Resource.Layout.HistoricoAlertas, Cesv);
 
             ListView.TextFilterEnabled = true;
 
-            ListView.ItemClick += Btn_ClickLista;
-        }
-
-        private void Btn_ClickLista(object sender, AdapterView.ItemClickEventArgs args)
-        {
-
-            Toast.MakeText(Application, Cesvs[args.Position], ToastLength.Short).Show();
-            //StartActivity(typeof(VeiculosSituacaoOprActivity));
-        }
-
-        public void webRequestSituacoes()
-        {
-            /*
-            foreach (var item in teste)
+            ListView.ItemClick += delegate (object sender, AdapterView.ItemClickEventArgs args)
             {
-                Cesvs.Add(item.denominacao);
-                IdCesvs.Add(Convert.ToInt32(item.statusId));
-
-                foreach (var subitem in item.ListaCesv)
-                {
-                    subitem.id = Convert.ToInt32(subitem.cesvId);
-                    subitem.statusInicio = item.statusId;
-                }
-                item.id = Convert.ToInt32(item.statusId);
-                connection.InsertOrReplaceAsync(item);
-            }
-            */
-
+                TokenAtual.cesvId = IdCesv[args.Position].ToString();
+                db.InsertOrReplaceAsync(TokenAtual);
+                Toast.MakeText(Application, Cesv[args.Position], ToastLength.Short).Show();
+                StartActivity(typeof(VeiculosSituacaoOprActivity));
+            };
 
         }
 
-        public List<string> Cesvs = new List<string>();
-        public List<int> IdCesvs = new List<int>();
+        public List<string> Cesv = new List<string>();
+        public List<int> IdCesv = new List<int>();
     }
 }
 

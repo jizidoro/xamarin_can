@@ -17,47 +17,16 @@ namespace Sample.Android
     public class VeiculosSituacaoActivity : ListActivity
     {
         string dbPath = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha4.db3");
-        protected override void OnCreate(Bundle bundle)
+        protected async override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
 
-            var db2 = new SQLiteConnection(dbPath);
-            db2.Close();
-
-            webRequestSituacoes();
-
-            ListAdapter = new ArrayAdapter<string>(this, Resource.Layout.HistoricoAlertas, Status);
-
-            ListView.TextFilterEnabled = true;
-
-            ListView.ItemClick += Btn_ClickLista;
-        }
-
-        private void Btn_ClickLista(object sender, AdapterView.ItemClickEventArgs args)
-        {
-
-            var db = new SQLiteConnection(dbPath);
-            var dadosToken = db.Table<Token>();
-            var TokenAtual = dadosToken.Where(x => x.data_att_token >= DateTime.Now).FirstOrDefault();
-            TokenAtual.statusId = IdStatus[args.Position].ToString();
-            db.InsertOrReplace(TokenAtual);
-            db.Close();
-
-
-            Toast.MakeText(Application, Status[args.Position], ToastLength.Short).Show();
-            StartActivity(typeof(VeiculosSituacaoOprActivity));
-        }
-
-        public WebRequest webRequestSituacoes()
-        {
-
-            var db = new SQLiteConnection(dbPath);
+            var db = new SQLiteAsyncConnection(dbPath);
             var dadosConfiguracao = db.Table<Configuracao>();
             var dadosToken = db.Table<Token>();
-            var configuracao = dadosConfiguracao.FirstOrDefault();
-            var TokenAtual = dadosToken.Where(x => x.data_att_token >= DateTime.Now).FirstOrDefault();
-            db.Close();
-            db.Dispose();
+            var configuracao = await  dadosConfiguracao.FirstOrDefaultAsync();
+            var TokenAtual = await dadosToken.Where(x => x.data_att_token >= DateTime.Now).FirstOrDefaultAsync();
+
             string url = "http://" + configuracao.endereco + "/Api/GerenciamentoPatio/GetCesvByStatus";
             System.Uri myUri = new System.Uri(url);
             HttpWebRequest myWebRequest = (HttpWebRequest)HttpWebRequest.Create(myUri);
@@ -70,18 +39,15 @@ namespace Sample.Android
 
             var myWebResponse = myWebRequest.GetResponse();
             var responseStream = myWebResponse.GetResponseStream();
-            if (responseStream == null) return null;
 
             var myStreamReader = new StreamReader(responseStream, Encoding.Default);
             var json = myStreamReader.ReadToEnd();
 
             responseStream.Close();
             myWebResponse.Close();
-            
+
             var teste = JsonConvert.DeserializeObject<List<Status>>(json);
-
-            var connection = new SQLiteAsyncConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha4.db3"));
-
+            
             foreach (var item in teste)
             {
                 Status.Add(item.denominacao);
@@ -103,17 +69,24 @@ namespace Sample.Android
                     item.telefone = item.telefone;
                     item.tipoVeiculo = item.tipoVeiculo;
                     */
-                    connection.InsertOrReplaceAsync(subitem);
+                    await db.InsertOrReplaceAsync(subitem);
                 }
                 item.id = Convert.ToInt32(item.statusId);
-                connection.InsertOrReplaceAsync(item);
+                await db.InsertOrReplaceAsync(item);
             }
 
+            ListAdapter = new ArrayAdapter<string>(this, Resource.Layout.HistoricoAlertas, Status);
+
+            ListView.TextFilterEnabled = true;
+
+            ListView.ItemClick += delegate (object sender, AdapterView.ItemClickEventArgs args)
+            {
+                TokenAtual.statusId = IdStatus[args.Position].ToString();
+                db.InsertOrReplaceAsync(TokenAtual);
+                Toast.MakeText(Application, Status[args.Position], ToastLength.Short).Show();
+                StartActivity(typeof(VeiculosSituacaoOprActivity));
+            };
             
-
-            return myWebRequest;
-
-
         }
 
         public List<string> Status = new List<string>();
