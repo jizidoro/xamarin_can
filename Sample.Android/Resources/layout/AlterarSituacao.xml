@@ -8,6 +8,8 @@
   <EditText
     android:id="@+id/txtCesv" 
     android:hint="CESV"
+    android:inputType="number|numberDecimal"
+    android:digits="0123456789."
     android:layout_width="match_parent"
     android:layout_height="wrap_content"/>
   <Button

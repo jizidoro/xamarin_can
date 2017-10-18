@@ -17,6 +17,8 @@ namespace Sample.Android.Resources.Model
 
         public string statusDestino {get; set; }
 
+        public string statusDestinoId { get; set; }
+
         public string placa {get; set; }
 
         public string nome {get; set; }
@@ -32,6 +34,8 @@ namespace Sample.Android.Resources.Model
         public string dataAgendamentoEntrada {get; set; }
 
         public string armazemId { get; set; }
+
+        public string msg { get; set; }
 
         public List<Status> ListaDestinos { get; set; }
     }

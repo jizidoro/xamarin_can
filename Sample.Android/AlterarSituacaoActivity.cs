@@ -40,7 +40,7 @@ namespace Sample.Android
             btnOpr.Click += delegate (object sender, EventArgs e)
             {
                 
-                TokenAtual.cesvId = txtCesv.Text;
+                TokenAtual.numeroCesv = txtCesv.Text;
                 db.InsertOrReplaceAsync(TokenAtual);
 
 
@@ -52,10 +52,6 @@ namespace Sample.Android
         }
 
 
-        private void btnOpr_Click(object sender, EventArgs e)
-        {
-            StartActivity(typeof(AlterarSituacaoOprActivity));
-        }
 
         private void btnQr_Click(object sender, EventArgs e)
         {
