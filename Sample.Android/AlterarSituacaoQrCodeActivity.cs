@@ -7,6 +7,8 @@ using Android.OS;
 using ZXing;
 using ZXing.Mobile;
 using System;
+using SQLite;
+using Sample.Android.Resources.Model;
 
 namespace Sample.Android
 {
@@ -115,7 +117,17 @@ namespace Sample.Android
             string msg = "";
 
             if (result != null && !string.IsNullOrEmpty(result.Text))
+            {
                 msg = "Found Barcode: " + result.Text;
+                string dbPath = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha4.db3");
+                var db = new SQLiteConnection(dbPath);
+                var dadosToken = db.Table<Token>();
+                var TokenAtual = dadosToken.Where(x => x.data_att_token >= DateTime.Now).FirstOrDefault();
+                TokenAtual.numeroCesv = result.Text;
+                db.InsertOrReplace(TokenAtual);
+                db.Close();
+                StartActivity(typeof(AlterarSituacaoOprActivity));
+            }
             else
                 msg = "Scanning Canceled!";
 

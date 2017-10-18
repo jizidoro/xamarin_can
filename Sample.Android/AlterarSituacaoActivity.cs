@@ -30,7 +30,6 @@ namespace Sample.Android
 
             var db = new SQLiteAsyncConnection(dbPath);
             var dadosToken = db.Table<Token>();
-            var dadosCesv = db.Table<Cesv>();
             var TokenAtual = await dadosToken.Where(x => x.data_att_token >= DateTime.Now).FirstOrDefaultAsync();
 
 
