@@ -44,9 +44,11 @@ namespace Sample.Android.Resources.Model
 
         public string cesvId { get; set; }
 
+        public string numeroCesv{ get; set; }
+
         public override string ToString()
         {
-            return string.Format("[Token: id={0}, access_token={1}, token_type={2}, expires_in={3}, data_att_token={4}, loginId={5}, armazemId={6}, empresaId={7} , cesvId={8} ,statusId={9}]", id, access_token, token_type, expires_in, data_att_token, loginId, armazemId, empresaId , cesvId, statusId);
+            return string.Format("[Token: id={0}, access_token={1}, token_type={2}, expires_in={3}, data_att_token={4}, loginId={5}, armazemId={6}, empresaId={7} , cesvId={8} ,statusId={9} ,numeroCesv{10}]", id, access_token, token_type, expires_in, data_att_token, loginId, armazemId, empresaId , cesvId, statusId , numeroCesv);
         }
     }
 

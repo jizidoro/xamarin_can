@@ -26,32 +26,32 @@ namespace Sample.Android
             var dadosToken = db.Table<Token>();
             var dadosCesv = db.Table<Cesv>();
             var TokenAtual = await dadosToken.Where(x => x.data_att_token >= DateTime.Now).FirstOrDefaultAsync();
-            var ListaCesv = await dadosCesv.Where(x => x.statusInicio == TokenAtual.statusId).ToListAsync();
+            var ListaCesv = await dadosCesv.Where(x => x.statusInicioId == TokenAtual.statusId && x.armazemId == TokenAtual.armazemId).ToListAsync();
 
             
 
             foreach (var item in ListaCesv)
             {
-                Cesv.Add(item.numero);
-                IdCesv.Add(Convert.ToInt32(item.cesvId));
+                OprCesv.Add(item.numero);
+                OprIdCesv.Add(Convert.ToInt32(item.cesvId));
             }
 
-            ListAdapter = new ArrayAdapter<string>(this, Resource.Layout.HistoricoAlertas, Cesv);
+            ListAdapter = new ArrayAdapter<string>(this, Resource.Layout.VeiculosSituacaoOpr, OprCesv);
 
             ListView.TextFilterEnabled = true;
 
             ListView.ItemClick += delegate (object sender, AdapterView.ItemClickEventArgs args)
             {
-                TokenAtual.cesvId = IdCesv[args.Position].ToString();
+                TokenAtual.cesvId = OprIdCesv[args.Position].ToString();
                 db.InsertOrReplaceAsync(TokenAtual);
-                Toast.MakeText(Application, Cesv[args.Position], ToastLength.Short).Show();
-                StartActivity(typeof(VeiculosSituacaoOprActivity));
+                //Toast.MakeText(Application, OprCesv[args.Position], ToastLength.Short).Show();
+                StartActivity(typeof(VeiculosSituacaoRelatorioActivity));
             };
 
         }
 
-        public List<string> Cesv = new List<string>();
-        public List<int> IdCesv = new List<int>();
+        public List<string> OprCesv = new List<string>();
+        public List<int> OprIdCesv = new List<int>();
     }
 }
 

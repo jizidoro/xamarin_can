@@ -7,6 +7,7 @@ using SQLite;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text;
 
@@ -46,16 +47,17 @@ namespace Sample.Android
             responseStream.Close();
             myWebResponse.Close();
 
-            var teste = JsonConvert.DeserializeObject<List<Status>>(json);
+            var teste = JsonConvert.DeserializeObject<List<ModelStatus>>(json);
             
             foreach (var item in teste)
             {
-                Status.Add(item.denominacao);
+                Status.Add(string.Concat(item.denominacao , " (", item.ListaCesv.Where(x => x.armazemId == TokenAtual.armazemId).Count(),")"));
                 IdStatus.Add(Convert.ToInt32(item.statusId));
 
                 foreach (var subitem in item.ListaCesv)
                 {
                     subitem.id = Convert.ToInt32(subitem.cesvId);
+                    subitem.statusInicioId = subitem.statusInicioId;
                     /*
                     item.cesvId = item.cesvId;
                     item.dataAgendamentoEntrada = item.dataAgendamentoEntrada;
@@ -69,13 +71,17 @@ namespace Sample.Android
                     item.telefone = item.telefone;
                     item.tipoVeiculo = item.tipoVeiculo;
                     */
-                    await db.InsertOrReplaceAsync(subitem);
+                    db.InsertOrReplaceAsync(subitem);
                 }
-                item.id = Convert.ToInt32(item.statusId);
-                await db.InsertOrReplaceAsync(item);
+                Status statusTemp = new Status();
+                statusTemp.cor = item.cor;
+                statusTemp.denominacao = item.denominacao;
+                statusTemp.statusId = item.statusId;
+                statusTemp.id = Convert.ToInt32(item.statusId);
+                db.InsertOrReplaceAsync(statusTemp);
             }
 
-            ListAdapter = new ArrayAdapter<string>(this, Resource.Layout.HistoricoAlertas, Status);
+            ListAdapter = new ArrayAdapter<string>(this, Resource.Layout.VeiculosSituacao, Status);
 
             ListView.TextFilterEnabled = true;
 
@@ -83,7 +89,6 @@ namespace Sample.Android
             {
                 TokenAtual.statusId = IdStatus[args.Position].ToString();
                 db.InsertOrReplaceAsync(TokenAtual);
-                Toast.MakeText(Application, Status[args.Position], ToastLength.Short).Show();
                 StartActivity(typeof(VeiculosSituacaoOprActivity));
             };
             

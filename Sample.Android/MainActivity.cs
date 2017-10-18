@@ -24,9 +24,9 @@ namespace Sample.Android
 
             SetContentView(Resource.Layout.Main);
 
-            createDatabase();
+            string resposta  = createDatabase();
             string dbPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha4.db3");
-            var db2 = new SQLiteConnection(dbPath); db2.Close();
+
             _progressDialog = new ProgressDialog(this) { Indeterminate = true };
             _progressDialog.SetTitle("Carregando");
 
@@ -42,20 +42,37 @@ namespace Sample.Android
             txtSenha = FindViewById<EditText>(Resource.Id.txtSenha);
 
             btnConfigurar = FindViewById<Button>(Resource.Id.btnConfigurar);
-            btnConfigurar.Click += BtnConfigurar_Click;
+            btnConfigurar.Click += delegate (object sender, EventArgs e)
+            {
+                StartActivity(typeof(ConfiguracaoActivity));
+            };
 
-            btnLogin.Click += BtnLogin_Click;
-            
-            
+            btnLogin.Click += delegate (object sender, EventArgs e)
+            {
+                try
+                {
+                    _progressDialog.Show();
 
+                    new LoginTask(this).Execute(txtUsuario.Text, txtSenha.Text);
+                }
+                catch (Exception ex)
+                {
+                    Toast.MakeText(this, ex.ToString(), ToastLength.Short).Show();
+                }
+            };
+
+            var db2 = new SQLiteConnection(dbPath);
+            db2.Close();
+            Token TokenAtual = null;
             var db = new SQLiteConnection(dbPath);
             var dadosToken = db.Table<Token>();
-            Token TokenAtual = null;
+            
             if (dadosToken.Count() > 0)
             {
                 TokenAtual = dadosToken.Where(x => x.data_att_token >= DateTime.Now).FirstOrDefault();
             }
             db.Close();
+
             if (TokenAtual != null)
             {
                 if (!string.IsNullOrEmpty(TokenAtual.access_token))
@@ -68,39 +85,20 @@ namespace Sample.Android
         }
 
 
-        private void BtnConfigurar_Click(object sender, EventArgs e)
-        {
-            StartActivity(typeof(ConfiguracaoActivity));
-        }
 
-
-        private void BtnLogin_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                _progressDialog.Show();
-                
-                new LoginTask(this).Execute(txtUsuario.Text, txtSenha.Text);
-            }
-            catch (Exception ex)
-            {
-                Toast.MakeText(this, ex.ToString(), ToastLength.Short).Show();
-            }
-        }
-        
         private string createDatabase()
         {
             try
             {
                 var connection = new SQLiteAsyncConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha4.db3"));
-                connection.CreateTableAsync<Login>();
                 connection.CreateTableAsync<Token>();
                 connection.CreateTableAsync<Empresa>();
                 connection.CreateTableAsync<Armazem>();
                 connection.CreateTableAsync<Permissao>();
                 connection.CreateTableAsync<Configuracao>();
-                connection.CreateTableAsync<Cesv>();
                 connection.CreateTableAsync<Status>();
+                connection.CreateTableAsync<Cesv>();
+                
 
                 connection.ExecuteAsync("DELETE FROM Permissao");
                 connection.ExecuteAsync("DELETE FROM Empresa");

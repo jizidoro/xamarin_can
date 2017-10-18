@@ -17,8 +17,6 @@ namespace Sample.Android.Resources.Model
 
         public string longitude { get; set; }
 
-        public List<Permissao> ListaPermissoes { get; set; }
-
         public override string ToString()
         {
             return string.Format("[Armazem:id={0}, armazemId={1}, denominacao={2}, latitude={3}, longitude={4}]", id, armazemId, denominacao, latitude, longitude);

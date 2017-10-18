@@ -1,14 +1,11 @@
 ﻿using Android.App;
-using Android.Content;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
 using Sample.Android.Resources.Model;
 using SQLite;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Text;
 
@@ -17,26 +14,18 @@ namespace Sample.Android
     [Activity(Label = "LoginActivity")]
     public class LoginActivity : Activity
     {
-        protected override void OnCreate(Bundle bundle)
+        protected async override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
-
-            webRequestTeste();
-
-            string dbPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha4.db3");
-            var db2 = new SQLiteConnection(dbPath);
-            db2.Close();
             
-            var db = new SQLiteConnection(dbPath);
+            string dbPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha4.db3");
+            var db = new SQLiteAsyncConnection(dbPath);
             var dadosToken = db.Table<Token>();
             var dadosPermissao = db.Table<Permissao>();
 
-            var TokenAtual = dadosToken.Where(x => x.data_att_token >= DateTime.Now).FirstOrDefault();
-            var permissoes = dadosPermissao.Where(x => x.armazemId == TokenAtual.armazemId).ToList();
-            db.Close();
-
+            var TokenAtual = await dadosToken.Where(x => x.data_att_token >= DateTime.Now).FirstOrDefaultAsync();
+            var permissoes = await dadosPermissao.Where(x => x.armazemId == TokenAtual.armazemId).ToListAsync();
             
-
             var scrollView = new ScrollView(this)
             {
                 LayoutParameters =
@@ -115,19 +104,19 @@ namespace Sample.Android
             }
         }
 
-        public WebRequest webRequestTeste()
+        public async void webRequestTeste()
         {
             string dbPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha4.db3");
-            var db2 = new SQLiteConnection(dbPath);
-            db2.Close();
-            
-            var db = new SQLiteConnection(dbPath);
+
+            var db = new SQLiteAsyncConnection(dbPath);
             var dadosToken = db.Table<Token>();
-            var TokenAtual = dadosToken.Where(x => x.data_att_token >= DateTime.Now).FirstOrDefault();
-            db.Close();
-            
-            System.Uri myUri = new System.Uri("http://192.168.17.102:13359/Api/GerenciamentoPatio/GetUnidadesUsuario");
-            var myWebRequest = WebRequest.Create(myUri);
+            var dadosConfiguracao = db.Table<Configuracao>();
+            var configuracao = await dadosConfiguracao.FirstOrDefaultAsync();
+            var TokenAtual = await dadosToken.Where(x => x.data_att_token >= DateTime.Now).FirstOrDefaultAsync();
+
+            string url = "http://" + configuracao.endereco + "/Api/GerenciamentoPatio/GetCesvByStatus";
+            System.Uri myUri = new System.Uri(url);
+            HttpWebRequest myWebRequest = (HttpWebRequest)HttpWebRequest.Create(myUri);
             var myHttpWebRequest = (HttpWebRequest)myWebRequest;
             myHttpWebRequest.PreAuthenticate = true;
             myHttpWebRequest.Headers.Add("Authorization", "Bearer " + TokenAtual.access_token);
@@ -135,17 +124,14 @@ namespace Sample.Android
 
             var myWebResponse = myWebRequest.GetResponse();
             var responseStream = myWebResponse.GetResponseStream();
-            if (responseStream == null) return null;
+
 
             var myStreamReader = new StreamReader(responseStream, Encoding.Default);
             var json = myStreamReader.ReadToEnd();
 
             responseStream.Close();
             myWebResponse.Close();
-
-            return null;
-
-                
+            
         }
 
         private void BtnCriar_Click1(object sender, EventArgs e)
