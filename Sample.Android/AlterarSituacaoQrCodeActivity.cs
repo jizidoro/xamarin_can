@@ -120,18 +120,22 @@ namespace Sample.Android
             {
                 msg = "Found Barcode: " + result.Text;
                 string dbPath = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha4.db3");
+
+                var db2 = new SQLiteConnection(dbPath);
+                db2.Close();
+
                 var db = new SQLiteConnection(dbPath);
                 var dadosToken = db.Table<Token>();
                 var TokenAtual = dadosToken.Where(x => x.data_att_token >= DateTime.Now).FirstOrDefault();
                 TokenAtual.numeroCesv = result.Text;
                 db.InsertOrReplace(TokenAtual);
                 db.Close();
-                StartActivity(typeof(AlterarSituacaoOprActivity));
             }
             else
                 msg = "Scanning Canceled!";
-
-            this.RunOnUiThread(() => Toast.MakeText(this, msg, ToastLength.Short).Show());
+            StartActivity(typeof(AlterarSituacaoOprActivity));
+            Finish();
+            //this.RunOnUiThread(() => Toast.MakeText(this, msg, ToastLength.Short).Show());
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
