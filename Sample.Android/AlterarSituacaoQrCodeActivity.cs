@@ -12,7 +12,7 @@ using Sample.Android.Resources.Model;
 
 namespace Sample.Android
 {
-    [Activity(Label = "AlterarSituacaoQrCodeActivity", Theme = "@android:style/Theme.Holo.Light", ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.KeyboardHidden)]
+    [Activity(Label = "Alterar Situação - QR Code", Theme = "@android:style/Theme.Holo.Light", ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.KeyboardHidden)]
     public class AlterarSituacaoQrCodeActivity : Activity
     {
         Button buttonScanCustomView;

@@ -1,4 +1,5 @@
 ﻿using Android.App;
+using r = Android.Content.Res;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
@@ -10,11 +11,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Drawing;
 
 namespace Sample.Android
 {
 
-    [Activity(NoHistory = true ,Label = "AlterarSituacaoOprActivity")]
+    [Activity(NoHistory = true ,Label = "Situações")]
     public class AlterarSituacaoOprActivity : Activity
     {
         string dbPath = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha4.db3");
@@ -81,12 +83,16 @@ namespace Sample.Android
                 };
 
                 scrollView.AddView(mainLayout);
-
-
+                
+                LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MatchParent, LinearLayout.LayoutParams.WrapContent);
+                linearLayoutParams.SetMargins(10, 0, 10, 0);
+                linearLayoutParams.Weight = Convert.ToSingle(0.5);
 
                 for (int n = 0; n < DadosRelatorioCesv.ListaDestinos.Count -1; n++)
                 {
                     var aButton = new Button(this);
+                    aButton.LayoutParameters = linearLayoutParams;
+                    aButton.SetTextColor(new r.ColorStateList(new int[][] { new int[] { } }, new int[] { Color.White.ToArgb() }));
                     aButton.Id = Convert.ToInt32(DadosRelatorioCesv.ListaDestinos[n].statusId);
                     aButton.Text = DadosRelatorioCesv.ListaDestinos[n].denominacao;
                     aButton.Click += delegate (object sender, EventArgs e)

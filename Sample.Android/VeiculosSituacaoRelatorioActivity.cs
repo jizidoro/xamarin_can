@@ -13,7 +13,7 @@ using System.Text;
 namespace Sample.Android
 {
     
-    [Activity(Label = "VeiculosSituacaoActivity")]
+    [Activity(Label = "Veículo")]
     public class VeiculosSituacaoRelatorioActivity : ListActivity
     {
         string dbPath = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha4.db3");
