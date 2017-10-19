@@ -92,6 +92,7 @@ namespace Sample.Android
                 TokenAtual.statusId = IdStatus[args.Position].ToString();
                 db.InsertOrReplaceAsync(TokenAtual);
                 StartActivity(typeof(VeiculosSituacaoOprActivity));
+                Finish();
             };
             
         }

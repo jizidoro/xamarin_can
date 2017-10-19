@@ -51,6 +51,12 @@ namespace Sample.Android
 
         }
 
+        public override void OnBackPressed()
+        {
+            StartActivity(typeof(VeiculosSituacaoActivity));
+            Finish();
+        }
+
         public List<string> OprCesv = new List<string>();
         public List<int> OprIdCesv = new List<int>();
     }
