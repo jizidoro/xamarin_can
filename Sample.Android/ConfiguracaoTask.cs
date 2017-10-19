@@ -14,7 +14,7 @@ public class ConfiguracaoTask : AsyncTask
 {
     private ProgressDialog _progressDialog;
     private Context _context;
-    string usuario, senha;
+    string txtPorta, txtEndereco;
     WebResponse myWebResponse = null;
 
     public ConfiguracaoTask(Context context)
@@ -31,22 +31,18 @@ public class ConfiguracaoTask : AsyncTask
 
     protected override Java.Lang.Object DoInBackground(params Java.Lang.Object[] @params)
     {
-        usuario = @params[0].ToString();
-        senha = @params[1].ToString();
+        txtEndereco = @params[0].ToString();
+        txtPorta = @params[1].ToString();
 
         string dbPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha4.db3");
         var db2 = new SQLiteConnection(dbPath);
         db2.Close();
         
-        var db = new SQLiteConnection(dbPath);
-        var dadosConfiguracao = db.Table<Configuracao>();
 
-        var configuracao = dadosConfiguracao.FirstOrDefault();
-        db.Close();
 
         try
         {
-            string url = "http://" + configuracao.endereco + "/Api/GerenciamentoPatio/GetApiVersion";
+            string url = "http://" + txtEndereco+":"+ txtPorta + "/Api/GerenciamentoPatio/GetApiVersion";
             System.Uri myUri = new System.Uri(url);
             HttpWebRequest myWebRequest = (HttpWebRequest)HttpWebRequest.Create(myUri);
             myWebRequest.Method = "GET";
@@ -59,8 +55,19 @@ public class ConfiguracaoTask : AsyncTask
 
             responseStream.Close();
             myWebResponse.Close();
-            
 
+
+            var db = new SQLiteConnection(dbPath);
+            var dadosConfiguracao = db.Table<Configuracao>();
+
+            Configuracao NovaConfiguracao = new Configuracao();
+            NovaConfiguracao.endereco = txtEndereco + ":" + txtPorta;
+            db.InsertOrReplace(NovaConfiguracao);
+
+            db.Close();
+
+            //(Activity)
+            _context.StartActivity(typeof(MainActivity));
 
         }
         catch (WebException e)
@@ -74,6 +81,7 @@ public class ConfiguracaoTask : AsyncTask
             {
                 var erro = ("Error: {0}", e.Status);
             }
+            _context.StartActivity(typeof(ConfiguracaoActivity));
         }
 
 

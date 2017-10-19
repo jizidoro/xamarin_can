@@ -57,5 +57,11 @@ namespace Sample.Android
             StartActivity(typeof(AlterarSituacaoQrCodeActivity));
         }
 
+        public override void OnBackPressed()
+        {
+            StartActivity(typeof(LoginActivity));
+            Finish();
+        }
+
     }
 }

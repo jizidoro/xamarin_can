@@ -37,13 +37,9 @@ namespace Sample.Android
             btnConfigurar.Click += delegate (object sender, EventArgs e)
             {
                 db.ExecuteAsync("DELETE FROM Configuracao");
-
-                Configuracao NovaConfiguracao = new Configuracao();
-                NovaConfiguracao.endereco = txtEndereco.Text + ":" + txtPorta.Text;
-                db.InsertOrReplaceAsync(NovaConfiguracao);
-
-                new ConfiguracaoTask(this).Execute("admin", "teste_configuracao_endereco");
-                Finish();
+                
+                new ConfiguracaoTask(this).Execute(txtEndereco.Text, txtPorta.Text);
+                
             };
 
             var configuracao = await dadosConfiguracao.FirstOrDefaultAsync();

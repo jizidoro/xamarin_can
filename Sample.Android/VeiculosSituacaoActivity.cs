@@ -96,6 +96,12 @@ namespace Sample.Android
             
         }
 
+        public override void OnBackPressed()
+        {
+            StartActivity(typeof(LoginActivity));
+            Finish();
+        }
+
         public List<string> ListaStatus = new List<string>();
         public List<int> IdStatus = new List<int>();
     }

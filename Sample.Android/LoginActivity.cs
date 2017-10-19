@@ -137,24 +137,28 @@ namespace Sample.Android
         {
             //Toast.MakeText(this, "Alterar Situacao...,", ToastLength.Short).Show();
             StartActivity(typeof(AlterarSituacaoActivity));
+            Finish();
         }
 
         private void BtnCriar_Click2(object sender, EventArgs e)
         {
             //Toast.MakeText(this, "VeiculosSituacaoActivity...,", ToastLength.Short).Show();
             StartActivity(typeof(VeiculosSituacaoActivity));
+            Finish();
         }
 
         private void BtnCriar_Click3(object sender, EventArgs e)
         {
             //Toast.MakeText(this, "HistoricoAlertasActivity...,", ToastLength.Short).Show();
             StartActivity(typeof(HistoricoAlertasActivity));
+            Finish();
         }
 
         private void BtnCriar_Click4(object sender, EventArgs e)
         {
             //Toast.MakeText(this, "ConfiguracaoActivity...,", ToastLength.Short).Show();
             StartActivity(typeof(ConfiguracaoActivity));
+            Finish();
         }
     }
 }

@@ -71,6 +71,12 @@ namespace Sample.Android
 
         }
 
+        public override void OnBackPressed()
+        {
+            StartActivity(typeof(LoginActivity));
+            Finish();
+        }
+
         public List<string> ListaHistoricoAlertas = new List<string>();
         public List<int> IdHistoricoAlertas = new List<int>();
     }

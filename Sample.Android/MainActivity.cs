@@ -27,11 +27,15 @@ namespace Sample.Android
 
             
             string dbPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha4.db3");
-
-            _progressDialog = new ProgressDialog(this) { Indeterminate = true };
-            _progressDialog.SetTitle("Carregando");
-
             
+
+            Token TokenAtual = null;
+
+
+            var db2 = new SQLiteConnection(dbPath);
+            db2.CreateTable<Token>();
+            db2.Close();
+
             /*
             var db3 = new SQLiteAsyncConnection(dbPath);
             var dadosTokenAsync = db3.Table<Token>();
@@ -52,6 +56,9 @@ namespace Sample.Android
             {
                 try
                 {
+                    _progressDialog = new ProgressDialog(this) { Indeterminate = true };
+                    _progressDialog.SetTitle("Carregando");
+
                     _progressDialog.Show();
                     new LoginTask(this).Execute(txtUsuario.Text, txtSenha.Text);
                 }
@@ -61,11 +68,9 @@ namespace Sample.Android
                 }
             };
 
-            var db2 = new SQLiteConnection(dbPath);
-            db2.Close();
-            Token TokenAtual = null;
+            
+            
             var db = new SQLiteConnection(dbPath);
-            db.CreateTable<Token>();
             var dadosToken = db.Table<Token>();
             
             if (dadosToken.Count() > 0)

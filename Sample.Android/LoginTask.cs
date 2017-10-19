@@ -27,7 +27,6 @@ public class LoginTask : AsyncTask
     protected override void OnPreExecute()
     {
         base.OnPreExecute();
-
         _progressDialog = ProgressDialog.Show(_context, "Logando no sistema", "Por favor aguarde...");
     }
 
@@ -92,15 +91,22 @@ public class LoginTask : AsyncTask
         }
         catch (WebException e)
         {
+            string logErro;
             if (e.Status == WebExceptionStatus.ProtocolError)
             {
                 myWebResponse = (HttpWebResponse)e.Response;
                 var erro = ("Errorcode: {0}", myWebResponse);
+                logErro = erro.ToString();
             }
             else
             {
                 var erro = ("Error: {0}", e.Status);
+                logErro = erro.ToString();
             }
+
+            //_progressDialog = ProgressDialog.Show(_context, logErro, logErro);
+
+            //_context.StartActivity(typeof(MainActivity));
         }
 
 

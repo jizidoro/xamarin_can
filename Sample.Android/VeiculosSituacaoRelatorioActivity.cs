@@ -41,6 +41,18 @@ namespace Sample.Android
 
             ListView.TextFilterEnabled = true;
 
+            ListView.ItemClick += delegate (object sender, AdapterView.ItemClickEventArgs args)
+            {
+                if (args.Position == 2)
+                {
+                    TokenAtual.cesvId = DadosRelatorioCesv.cesvId.ToString();
+                    TokenAtual.numeroCesv = DadosRelatorioCesv.numero.ToString();
+                    db.InsertOrReplaceAsync(TokenAtual);
+                    //Toast.MakeText(Application, OprCesv[args.Position], ToastLength.Short).Show();
+                    StartActivity(typeof(AlterarSituacaoOprActivity));
+                }
+            };
+
         }
 
         public List<string> RelatorioCesv = new List<string>();
