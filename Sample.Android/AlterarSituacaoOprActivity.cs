@@ -129,6 +129,12 @@ namespace Sample.Android
 
         }
 
+        public override void OnBackPressed()
+        {
+            StartActivity(typeof(LoginActivity));
+            Finish();
+        }
+
 
 
 

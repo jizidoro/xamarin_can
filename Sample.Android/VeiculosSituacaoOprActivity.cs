@@ -22,6 +22,8 @@ namespace Sample.Android
         {
             base.OnCreate(bundle);
 
+            activity = this;
+
             var db = new SQLiteAsyncConnection(dbPath);
             var dadosToken = db.Table<Token>();
             var dadosCesv = db.Table<Cesv>();
@@ -46,16 +48,18 @@ namespace Sample.Android
                 db.InsertOrReplaceAsync(TokenAtual);
                 //Toast.MakeText(Application, OprCesv[args.Position], ToastLength.Short).Show();
                 StartActivity(typeof(VeiculosSituacaoRelatorioActivity));
-                Finish();
+
             };
 
         }
 
-        public override void OnBackPressed()
+        public static VeiculosSituacaoOprActivity GetInstace()
         {
-            StartActivity(typeof(VeiculosSituacaoActivity));
-            Finish();
+            return activity;
         }
+
+        static VeiculosSituacaoOprActivity activity;
+
 
         public List<string> OprCesv = new List<string>();
         public List<int> OprIdCesv = new List<int>();

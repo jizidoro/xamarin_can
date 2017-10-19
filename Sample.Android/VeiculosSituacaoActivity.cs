@@ -22,6 +22,8 @@ namespace Sample.Android
         {
             base.OnCreate(bundle);
 
+            activity = this;
+
             var db = new SQLiteAsyncConnection(dbPath);
             db.ExecuteAsync("DELETE FROM Cesv");
             db.ExecuteAsync("DELETE FROM Status");
@@ -92,7 +94,6 @@ namespace Sample.Android
                 TokenAtual.statusId = IdStatus[args.Position].ToString();
                 db.InsertOrReplaceAsync(TokenAtual);
                 StartActivity(typeof(VeiculosSituacaoOprActivity));
-                Finish();
             };
             
         }
@@ -102,6 +103,13 @@ namespace Sample.Android
             StartActivity(typeof(LoginActivity));
             Finish();
         }
+
+        public static VeiculosSituacaoActivity GetInstace()
+        {
+            return activity;
+        }
+
+        static VeiculosSituacaoActivity activity;
 
         public List<string> ListaStatus = new List<string>();
         public List<int> IdStatus = new List<int>();
