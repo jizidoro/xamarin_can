@@ -66,8 +66,9 @@ public class ConfiguracaoTask : AsyncTask
 
             db.Close();
 
-            //(Activity)
+            
             _context.StartActivity(typeof(MainActivity));
+            ((Activity)_context).Finish();
 
         }
         catch (WebException e)
@@ -81,7 +82,6 @@ public class ConfiguracaoTask : AsyncTask
             {
                 var erro = ("Error: {0}", e.Status);
             }
-            _context.StartActivity(typeof(ConfiguracaoActivity));
         }
 
 

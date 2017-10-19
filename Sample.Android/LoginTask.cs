@@ -39,16 +39,21 @@ public class LoginTask : AsyncTask
         var db2 = new SQLiteConnection(dbPath);
         db2.Close();
 
+        Configuracao configuracao = null;
+
         var db = new SQLiteConnection(dbPath);
         var dadosConfiguracao = db.Table<Configuracao>();
-
-        var configuracao = dadosConfiguracao.FirstOrDefault();
+        if (dadosConfiguracao.Count() > 0)
+        {
+            configuracao = dadosConfiguracao.FirstOrDefault();
+        }
         db.Close();
 
         if (configuracao == null)
         {
             _context.StartActivity(typeof(ConfiguracaoActivity));
-            TokenAtual = true;
+            ((Activity)_context).Finish();
+            return false;
         }
 
         try
@@ -86,7 +91,9 @@ public class LoginTask : AsyncTask
             if (string.IsNullOrEmpty(teste.error))
             {
                 connection.InsertOrReplaceAsync(teste);
+                
                 _context.StartActivity(typeof(SelecionaArmazemActivity));
+                ((Activity)_context).Finish();
             }
         }
         catch (WebException e)
@@ -106,7 +113,8 @@ public class LoginTask : AsyncTask
 
             //_progressDialog = ProgressDialog.Show(_context, logErro, logErro);
 
-            //_context.StartActivity(typeof(MainActivity));
+            _context.StartActivity(typeof(MainActivity));
+            ((Activity)_context).Finish();
         }
 
 
