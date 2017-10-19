@@ -1,37 +1,93 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:background="#2579BF"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-  <TextView
-      android:text="Login"
-      android:gravity="center"
-      android:textAppearance="?android:attr/textAppearanceLarge"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:id="@+id/txtviewLogin" />
-  <EditText
-      android:hint="Usuário"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:id="@+id/txtUsuario" />
-  <EditText
-      android:hint="Senha"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:inputType="textPassword"
-      android:id="@+id/txtSenha" />
-  <Button
-      android:text="Login"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:id="@+id/btnLogin" />
-  <Button
-    android:text="Configurar"
+		style="@style/LineLayoutBox"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/btnConfigurar" />
-  
+	  android:layout_margin="10dp"
+	  android:orientation="vertical">
 
+  <LinearLayout
+      style="@style/LineLayoutStyle"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content" >
+
+    <TextView
+        android:id="@+id/textUsuario"
+        style="@style/TextSmallStyleDefaultColor"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.4"
+        android:text="Usuário" />
+
+    <EditText
+        android:id="@+id/txtUsuario"
+        style="@style/TextSmallStyleDefaultColor"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.6" />
+  </LinearLayout>
+
+  <LinearLayout
+      style="@style/LineLayoutStyle"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content" >
+
+    <TextView
+        android:id="@+id/textSenha"
+        style="@style/TextSmallStyleDefaultColor"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.4"
+        android:text="Senha" />
+
+    <EditText
+        android:id="@+id/txtSenha"
+        style="@style/TextSmallStyleDefaultColor"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.6" />
+  </LinearLayout>
+
+  <LinearLayout
+      style="@style/LineLayoutStyle"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:gravity="center"
+      android:orientation="horizontal"
+      android:padding="10dp" >
+
+    <Button
+        android:id="@+id/btnLogin"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_weight="0.5"
+        android:scaleType="center"
+        android:textColor="@color/white_color"
+        android:text="Login" />
+
+  </LinearLayout>
+
+  <LinearLayout
+      style="@style/LineLayoutStyle"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:gravity="center"
+      android:orientation="horizontal"
+      android:padding="10dp" >
+
+    <Button
+        android:id="@+id/btnConfigurar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_weight="0.5"
+        android:scaleType="center"
+        android:textColor="@color/white_color"
+        android:text="Configurar" />
+
+  </LinearLayout>
+  
 </LinearLayout>

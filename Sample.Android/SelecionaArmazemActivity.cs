@@ -12,8 +12,7 @@ using System.Text;
 
 namespace Sample.Android
 {
-
-    [Activity( Label = "VeiculosSituacaoActivity")]
+    [Activity(Label = "Selecione o armazém")]
     public class SelecionaArmazemActivity : ListActivity
     {
         protected async override void OnCreate(Bundle bundle)

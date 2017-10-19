@@ -11,7 +11,7 @@ using System.Text;
 
 namespace Sample.Android
 {
-    [Activity(Label = "LoginActivity")]
+    [Activity(Label = "Ações")]
     public class LoginActivity : Activity
     {
         protected async override void OnCreate(Bundle bundle)
@@ -47,7 +47,12 @@ namespace Sample.Android
             for (int n = 0; n < permissoes.Count ; n++)
             {
                 var aButton = new Button(this);
-                
+
+                //LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WrapContent);
+                //linearLayoutParams.SetMargins(0, 0, 10, 10);
+                //linearLayoutParams.Weight = Convert.ToSingle(0.5);
+                //aButton.LayoutParameters = linearLayoutParams;
+
                 switch (permissoes[n].denominacao)
                 {
                     case "AppPatioAlterarSitucao":
@@ -66,8 +71,6 @@ namespace Sample.Android
                         Console.WriteLine("Default case");
                         break;
                 }
-
-                
 
                 mainLayout.AddView(aButton);
             }

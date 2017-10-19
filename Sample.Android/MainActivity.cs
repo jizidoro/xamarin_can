@@ -9,7 +9,7 @@ using Android.Content;
 
 namespace Sample.Android
 {
-    [Activity(NoHistory = true, Label = "App.Login_SQLite", MainLauncher = true, Icon = "@drawable/icon")]
+    [Activity(NoHistory = true, Label = "Gerenciamento de Pátio", MainLauncher = true, Icon = "@drawable/ic_icon_b3_2")]
     public class MainActivity : Activity
     {
         EditText txtUsuario;
