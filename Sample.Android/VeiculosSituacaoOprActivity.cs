@@ -14,7 +14,7 @@ using System.Text;
 namespace Sample.Android
 {
     
-    [Activity(Label = "VeiculosSituacaoActivity")]
+    [Activity(Label = "Veículos")]
     public class VeiculosSituacaoOprActivity : ListActivity
     {
         string dbPath = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha4.db3");
@@ -26,13 +26,12 @@ namespace Sample.Android
             var dadosToken = db.Table<Token>();
             var dadosCesv = db.Table<Cesv>();
             var TokenAtual = await dadosToken.Where(x => x.data_att_token >= DateTime.Now).FirstOrDefaultAsync();
-            var ListaCesv = await dadosCesv.Where(x => x.statusInicioId == TokenAtual.statusId && x.armazemId == TokenAtual.armazemId).ToListAsync();
 
+            var ListaCesv = await dadosCesv.Where(x => x.statusInicioId == TokenAtual.statusId && x.armazemId == TokenAtual.armazemId).OrderBy(x => x.placa).ToListAsync();
             
-
-            foreach (var item in ListaCesv)
+            foreach (var item in ListaCesv.OrderBy(x => x.placa))
             {
-                OprCesv.Add(item.numero);
+                OprCesv.Add(string.Format("{0} - {1}", item.placa, item.nome));
                 OprIdCesv.Add(Convert.ToInt32(item.cesvId));
             }
 

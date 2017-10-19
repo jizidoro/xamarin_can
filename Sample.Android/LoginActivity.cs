@@ -1,10 +1,12 @@
 ﻿using Android.App;
+using r = Android.Content.Res;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
 using Sample.Android.Resources.Model;
 using SQLite;
 using System;
+using System.Drawing;
 using System.IO;
 using System.Net;
 using System.Text;
@@ -44,14 +46,15 @@ namespace Sample.Android
 
             scrollView.AddView(mainLayout);
 
+            LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MatchParent, LinearLayout.LayoutParams.WrapContent);
+            linearLayoutParams.SetMargins(10, 0, 10, 0);
+            linearLayoutParams.Weight = Convert.ToSingle(0.5);
+
             for (int n = 0; n < permissoes.Count ; n++)
             {
                 var aButton = new Button(this);
-
-                //LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WrapContent);
-                //linearLayoutParams.SetMargins(0, 0, 10, 10);
-                //linearLayoutParams.Weight = Convert.ToSingle(0.5);
-                //aButton.LayoutParameters = linearLayoutParams;
+                aButton.LayoutParameters = linearLayoutParams;
+                aButton.SetTextColor(new r.ColorStateList(new int[][] { new int[] { } }, new int[] { Color.White.ToArgb() }));
 
                 switch (permissoes[n].denominacao)
                 {
@@ -76,6 +79,8 @@ namespace Sample.Android
             }
 
             var configButton = new Button(this);
+            configButton.LayoutParameters = linearLayoutParams;
+            configButton.SetTextColor(new r.ColorStateList(new int[][] { new int[] { } }, new int[] { Color.White.ToArgb() }));
             configButton.Text = "Configuração";
             configButton.Click += BtnCriar_Click4;
             mainLayout.AddView(configButton);
