@@ -17,7 +17,6 @@ namespace Sample.Android
     {
         Button btnConfigurar;
         EditText txtEndereco;
-        EditText txtPorta;
         string TokenUsuario { get; set; }
 
         protected async override void OnCreate(Bundle savedInstanceState)
@@ -25,8 +24,7 @@ namespace Sample.Android
             base.OnCreate(savedInstanceState);
 
             SetContentView(Resource.Layout.Configuracao);
-
-            txtPorta = FindViewById<EditText>(Resource.Id.txtPorta);
+            
             txtEndereco = FindViewById<EditText>(Resource.Id.txtEndereco);
 
             string dbPath = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha4.db3");
@@ -38,7 +36,7 @@ namespace Sample.Android
             {
                 db.ExecuteAsync("DELETE FROM Configuracao");
                 
-                new ConfiguracaoTask(this).Execute(txtEndereco.Text, txtPorta.Text);
+                new ConfiguracaoTask(this).Execute(txtEndereco.Text);
                 
             };
 
@@ -46,9 +44,7 @@ namespace Sample.Android
 
             if (configuracao != null)
             {
-                var repartidor = configuracao.endereco.Split(':');
-                txtEndereco.Text = repartidor[0];
-                txtPorta.Text = repartidor[1];
+                txtEndereco.Text = configuracao.endereco;
             }
 
         }

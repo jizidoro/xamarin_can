@@ -14,7 +14,7 @@ public class ConfiguracaoTask : AsyncTask
 {
     private ProgressDialog _progressDialog;
     private Context _context;
-    string txtPorta, txtEndereco;
+    string txtEndereco;
     WebResponse myWebResponse = null;
 
     public ConfiguracaoTask(Context context)
@@ -32,7 +32,6 @@ public class ConfiguracaoTask : AsyncTask
     protected override Java.Lang.Object DoInBackground(params Java.Lang.Object[] @params)
     {
         txtEndereco = @params[0].ToString();
-        txtPorta = @params[1].ToString();
 
         string dbPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha4.db3");
         var db2 = new SQLiteConnection(dbPath);
@@ -42,7 +41,7 @@ public class ConfiguracaoTask : AsyncTask
 
         try
         {
-            string url = "http://" + txtEndereco+":"+ txtPorta + "/Api/GerenciamentoPatio/GetApiVersion";
+            string url = "http://" + txtEndereco + "/Api/GerenciamentoPatio/GetApiVersion";
             System.Uri myUri = new System.Uri(url);
             HttpWebRequest myWebRequest = (HttpWebRequest)HttpWebRequest.Create(myUri);
             myWebRequest.Method = "GET";
@@ -61,7 +60,7 @@ public class ConfiguracaoTask : AsyncTask
             var dadosConfiguracao = db.Table<Configuracao>();
 
             Configuracao NovaConfiguracao = new Configuracao();
-            NovaConfiguracao.endereco = txtEndereco + ":" + txtPorta;
+            NovaConfiguracao.endereco = txtEndereco;
             db.InsertOrReplace(NovaConfiguracao);
 
             db.Close();
