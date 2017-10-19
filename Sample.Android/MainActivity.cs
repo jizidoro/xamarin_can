@@ -24,7 +24,7 @@ namespace Sample.Android
 
             SetContentView(Resource.Layout.Main);
 
-            string resposta  = createDatabase();
+            
             string dbPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha4.db3");
 
             _progressDialog = new ProgressDialog(this) { Indeterminate = true };
@@ -65,6 +65,7 @@ namespace Sample.Android
             db2.Close();
             Token TokenAtual = null;
             var db = new SQLiteConnection(dbPath);
+            db.CreateTable<Token>();
             var dadosToken = db.Table<Token>();
             
             if (dadosToken.Count() > 0)
@@ -72,6 +73,8 @@ namespace Sample.Android
                 TokenAtual = dadosToken.Where(x => x.data_att_token >= DateTime.Now).FirstOrDefault();
             }
             db.Close();
+
+            string resposta = createDatabase();
 
             if (TokenAtual != null)
             {
@@ -91,7 +94,6 @@ namespace Sample.Android
             try
             {
                 var connection = new SQLiteAsyncConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha4.db3"));
-                connection.CreateTableAsync<Token>();
                 connection.CreateTableAsync<Empresa>();
                 connection.CreateTableAsync<Armazem>();
                 connection.CreateTableAsync<Permissao>();

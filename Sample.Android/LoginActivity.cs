@@ -11,7 +11,7 @@ using System.Text;
 
 namespace Sample.Android
 {
-    [Activity(Label = "LoginActivity")]
+    [Activity(NoHistory = true ,Label = "LoginActivity")]
     public class LoginActivity : Activity
     {
         protected async override void OnCreate(Bundle bundle)
