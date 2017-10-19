@@ -16,7 +16,7 @@ using System.Drawing;
 namespace Sample.Android
 {
 
-    [Activity(NoHistory = true ,Label = "AlterarSituacaoOprActivity")]
+    [Activity(NoHistory = true ,Label = "Situações")]
     public class AlterarSituacaoOprActivity : Activity
     {
         string dbPath = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha4.db3");

@@ -15,7 +15,7 @@ using System.Text;
 namespace Sample.Android
 {
 
-    [Activity(Label = "AlterarSituacaoActivity")]
+    [Activity(Label = "Alterar Situação")]
     public class AlterarSituacaoActivity : Activity
     {
         Button btnOpr, btnQr;
