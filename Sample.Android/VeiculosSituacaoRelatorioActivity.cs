@@ -50,11 +50,16 @@ namespace Sample.Android
                     db.InsertOrReplaceAsync(TokenAtual);
                     //Toast.MakeText(Application, OprCesv[args.Position], ToastLength.Short).Show();
                     StartActivity(typeof(AlterarSituacaoOprActivity));
-                    VeiculosSituacaoOprActivity.getInstance().Finish();
                     Finish();
                 }
             };
 
+        }
+
+        public override void OnBackPressed()
+        {
+            StartActivity(typeof(VeiculosSituacaoOprActivity));
+            Finish();
         }
 
         public List<string> RelatorioCesv = new List<string>();
