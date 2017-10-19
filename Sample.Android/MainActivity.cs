@@ -5,10 +5,11 @@ using SQLite;
 using Sample.Android.Resources.Model;
 using System;
 using System.IO;
+using Android.Content;
 
 namespace Sample.Android
 {
-    [Activity(Label = "App.Login_SQLite", MainLauncher = true, Icon = "@drawable/icon")]
+    [Activity(NoHistory = true, Label = "App.Login_SQLite", MainLauncher = true, Icon = "@drawable/icon")]
     public class MainActivity : Activity
     {
         EditText txtUsuario;
@@ -52,7 +53,6 @@ namespace Sample.Android
                 try
                 {
                     _progressDialog.Show();
-
                     new LoginTask(this).Execute(txtUsuario.Text, txtSenha.Text);
                 }
                 catch (Exception ex)

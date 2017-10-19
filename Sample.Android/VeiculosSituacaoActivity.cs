@@ -23,6 +23,8 @@ namespace Sample.Android
             base.OnCreate(bundle);
 
             var db = new SQLiteAsyncConnection(dbPath);
+            db.ExecuteAsync("DELETE FROM Cesv");
+            db.ExecuteAsync("DELETE FROM Status");
             var dadosConfiguracao = db.Table<Configuracao>();
             var dadosToken = db.Table<Token>();
             var configuracao = await  dadosConfiguracao.FirstOrDefaultAsync();
@@ -51,7 +53,7 @@ namespace Sample.Android
             
             foreach (var item in teste)
             {
-                Status.Add(string.Concat(item.denominacao , " (", item.ListaCesv.Where(x => x.armazemId == TokenAtual.armazemId).Count(),")"));
+                ListaStatus.Add(string.Concat(item.denominacao , " (", item.ListaCesv.Where(x => x.armazemId == TokenAtual.armazemId).Count(),")"));
                 IdStatus.Add(Convert.ToInt32(item.statusId));
 
                 foreach (var subitem in item.ListaCesv)
@@ -81,7 +83,7 @@ namespace Sample.Android
                 db.InsertOrReplaceAsync(statusTemp);
             }
 
-            ListAdapter = new ArrayAdapter<string>(this, Resource.Layout.VeiculosSituacao, Status);
+            ListAdapter = new ArrayAdapter<string>(this, Resource.Layout.VeiculosSituacao, ListaStatus);
 
             ListView.TextFilterEnabled = true;
 
@@ -94,7 +96,7 @@ namespace Sample.Android
             
         }
 
-        public List<string> Status = new List<string>();
+        public List<string> ListaStatus = new List<string>();
         public List<int> IdStatus = new List<int>();
     }
 }

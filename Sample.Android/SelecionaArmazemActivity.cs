@@ -13,7 +13,7 @@ using System.Text;
 namespace Sample.Android
 {
 
-    [Activity(Label = "VeiculosSituacaoActivity")]
+    [Activity( Label = "VeiculosSituacaoActivity")]
     public class SelecionaArmazemActivity : ListActivity
     {
         protected async override void OnCreate(Bundle bundle)
@@ -51,7 +51,7 @@ namespace Sample.Android
             
             foreach (var item in teste.ListaArmazens)
             {
-                Armazens.Add(item.denominacao);
+                ListaArmazens.Add(item.denominacao);
                 IdArmazens.Add(Convert.ToInt32(item.armazemId));
 
                 Armazem armazemTemp = new Armazem();
@@ -76,7 +76,7 @@ namespace Sample.Android
 
             db.InsertOrReplaceAsync(empresaTemp);
 
-            ListAdapter = new ArrayAdapter<string>(this, Resource.Layout.HistoricoAlertas, Armazens);
+            ListAdapter = new ArrayAdapter<string>(this, Resource.Layout.HistoricoAlertas, ListaArmazens);
 
             ListView.TextFilterEnabled = true;
 
@@ -85,7 +85,7 @@ namespace Sample.Android
                 TokenAtual.armazemId = IdArmazens[args.Position].ToString();
                 db.InsertOrReplaceAsync(TokenAtual);
                 
-                Toast.MakeText(Application, Armazens[args.Position], ToastLength.Short).Show();
+                Toast.MakeText(Application, ListaArmazens[args.Position], ToastLength.Short).Show();
                 StartActivity(typeof(LoginActivity));
 
             };
@@ -93,7 +93,7 @@ namespace Sample.Android
 
 
 
-        public List<string> Armazens = new List<string>();
+        public List<string> ListaArmazens = new List<string>();
         public List<int> IdArmazens = new List<int>();
     }
 }

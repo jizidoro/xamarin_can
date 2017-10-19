@@ -137,9 +137,11 @@
     <Compile Include="AlterarSituacaoOprActivity.cs" />
     <Compile Include="AlterarSituacaoActivity.cs" />
     <Compile Include="ConfiguracaoActivity.cs" />
+    <Compile Include="HistoricoAlertasRelatorioActivity.cs" />
     <Compile Include="HistoricoAlertasActivity.cs" />
     <Compile Include="ConfiguracaoTask.cs" />
     <Compile Include="LoginTask.cs" />
+    <Compile Include="Resources\Model\HistoricoAlertas.cs" />
     <Compile Include="Resources\Model\ModelArmazem.cs" />
     <Compile Include="Resources\Model\ModelEmpresa.cs" />
     <Compile Include="Resources\Model\ModelCesv.cs" />

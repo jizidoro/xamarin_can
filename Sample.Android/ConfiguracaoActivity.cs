@@ -57,10 +57,11 @@ namespace Sample.Android
 
         }
 
-
-        private void BtnConfigurar_Click(object sender, EventArgs e)
+        
+        public override void OnBackPressed()
         {
-            
+            StartActivity(typeof(MainActivity));
+            Finish();
         }
     }
 }

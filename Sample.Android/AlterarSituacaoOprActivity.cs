@@ -96,10 +96,7 @@ namespace Sample.Android
                         string urlPost = "http://" + configuracao.endereco + "/Api/GerenciamentoPatio/PostCesvAlteracaoStatus?CesvId=" + DadosRelatorioCesv.cesvId + "&StatusOrigemId=" + DadosRelatorioCesv.statusInicioId + "&StatusDestinoId=" + indice;
                         System.Uri myUriPost = new System.Uri(urlPost);
                         HttpWebRequest myWebRequestPost = (HttpWebRequest)HttpWebRequest.Create(myUriPost);
-
-                        //string requestBody = string.Format("grant_type=password&CesvId={0}&StatusOrigemId={1}&StatusDestinoId={2}", DadosRelatorioCesv.cesvId, DadosRelatorioCesv.statusInicioId, DadosRelatorioCesv.ListaDestinos[n].statusId);
-
-
+                        
                         var myHttpWebRequestPost = (HttpWebRequest)myWebRequestPost;
                         myHttpWebRequestPost.PreAuthenticate = true;
                         myHttpWebRequestPost.Method = "POST";

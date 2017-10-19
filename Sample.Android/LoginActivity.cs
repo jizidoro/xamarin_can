@@ -11,7 +11,7 @@ using System.Text;
 
 namespace Sample.Android
 {
-    [Activity(NoHistory = true ,Label = "LoginActivity")]
+    [Activity(Label = "LoginActivity")]
     public class LoginActivity : Activity
     {
         protected async override void OnCreate(Bundle bundle)
@@ -85,7 +85,6 @@ namespace Sample.Android
             Stream postStream = webRequest.EndGetRequestStream(callbackResult);
 
             string requestBody = string.Format("");
-            //string requestBody = string.Format("grant_type=password&username={0}&password={1}", "admin", "admin@123");
             byte[] byteArray = Encoding.UTF8.GetBytes(requestBody);
 
             postStream.Write(byteArray, 0, byteArray.Length);
