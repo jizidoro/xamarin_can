@@ -22,15 +22,17 @@ namespace Sample.Android
         {
             base.OnCreate(bundle);
 
+            //activityA = this;
+
             var db = new SQLiteAsyncConnection(dbPath);
             var dadosToken = db.Table<Token>();
             var dadosCesv = db.Table<Cesv>();
             var TokenAtual = await dadosToken.Where(x => x.data_att_token >= DateTime.Now).FirstOrDefaultAsync();
-            var ListaCesv = await dadosCesv.Where(x => x.statusInicioId == TokenAtual.statusId && x.armazemId == TokenAtual.armazemId).ToListAsync();
+            var ListaCesv = await dadosCesv.Where(x => x.statusInicioId == TokenAtual.statusId && x.armazemId == TokenAtual.armazemId).OrderBy(x => x.placa).ToListAsync();
 
             
 
-            foreach (var item in ListaCesv)
+            foreach (var item in ListaCesv.OrderBy(x => x.placa))
             {
                 OprCesv.Add(item.numero);
                 OprIdCesv.Add(Convert.ToInt32(item.cesvId));
@@ -50,6 +52,12 @@ namespace Sample.Android
 
         }
 
+        public static VeiculosSituacaoOprActivity getInstance()
+        {
+            return activityA;
+        }
+
+        static VeiculosSituacaoOprActivity activityA;
         public List<string> OprCesv = new List<string>();
         public List<int> OprIdCesv = new List<int>();
     }

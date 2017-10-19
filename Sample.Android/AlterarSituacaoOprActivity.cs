@@ -14,7 +14,7 @@ using System.Text;
 namespace Sample.Android
 {
 
-    [Activity(Label = "AlterarSituacaoOprActivity")]
+    [Activity(NoHistory = true ,Label = "AlterarSituacaoOprActivity")]
     public class AlterarSituacaoOprActivity : Activity
     {
         string dbPath = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha4.db3");
@@ -113,6 +113,7 @@ namespace Sample.Android
                         responseStreamPost.Close();
                         myWebResponsePost.Close();
                         Toast.MakeText(Application, "Cesv alterada com sucesso!", ToastLength.Long).Show();
+                        StartActivity(typeof(LoginActivity));
                         Finish();
                     };
 
