@@ -47,7 +47,8 @@ namespace Sample.Android
             for (int n = 0; n < permissoes.Count ; n++)
             {
                 var aButton = new Button(this);
-                
+                var aLayout = new Button(this);
+
                 switch (permissoes[n].denominacao)
                 {
                     case "AppPatioAlterarSitucao":
@@ -66,8 +67,6 @@ namespace Sample.Android
                         Console.WriteLine("Default case");
                         break;
                 }
-
-                
 
                 mainLayout.AddView(aButton);
             }

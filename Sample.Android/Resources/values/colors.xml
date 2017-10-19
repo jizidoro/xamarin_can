@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="white_color">#FFF</color>
+    <color name="orange_waiting">#FF9800</color>
+    <color name="green_classif">#CDDC39</color>
+    <color name="green_liber">#4CAF50</color>
+    <color name="blue_agend">#2196F3</color>
+    <color name="red_refug">#F44336</color>
+</resources>

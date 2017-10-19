@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="app_name">Gerenciamento de Pátio</string>
+    <color name="apptheme_color">#2196f3</color>
 </resources>

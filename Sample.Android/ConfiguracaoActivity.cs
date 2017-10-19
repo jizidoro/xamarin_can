@@ -12,7 +12,7 @@ using System.Text;
 namespace Sample.Android
 {
 
-    [Activity(Label = "ConfiguracaoActivity")]
+    [Activity(Label = "Configuração")]
     public class ConfiguracaoActivity : Activity
     {
         Button btnConfigurar;
