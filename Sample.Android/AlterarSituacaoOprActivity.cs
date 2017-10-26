@@ -3,6 +3,7 @@ using r = Android.Content.Res;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
+using Android.Graphics;
 using Newtonsoft.Json;
 using Sample.Android.Resources.Model;
 using SQLite;
@@ -11,7 +12,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
-using System.Drawing;
+using Android.Util;
 
 namespace Sample.Android
 {
@@ -76,25 +77,66 @@ namespace Sample.Android
 
                 var mainLayout = new LinearLayout(this)
                 {
-                    Orientation = Orientation.Vertical,
+                    Orientation = Orientation.Vertical, WeightSum = 2,
                     LayoutParameters =
                                new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent)
 
                 };
 
                 scrollView.AddView(mainLayout);
-                
-                LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MatchParent, LinearLayout.LayoutParams.WrapContent);
-                linearLayoutParams.SetMargins(10, 0, 10, 0);
-                linearLayoutParams.Weight = Convert.ToSingle(0.5);
+
+                LinearLayout.LayoutParams LayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MatchParent, LinearLayout.LayoutParams.MatchParent);
+                //LayoutParams.Height = LinearLayout.LayoutParams.MatchParent;
+                //LayoutParams.Width = LinearLayout.LayoutParams.MatchParent;
+                LayoutParams.Weight = 1;
+                LayoutParams.SetMargins(10, 10, 10, 10);
+                //LinearLayoutParams.Weight = Convert.ToSingle(0.5);
+
+                var texto1 = new TextView(this);
+                texto1.Text = string.Concat("Numero: ", DadosRelatorioCesv.numero);
+                texto1.SetTextSize(ComplexUnitType.Px, 50);
+                mainLayout.AddView(texto1);
+
+                var texto2 = new TextView(this);
+                texto2.Text = string.Concat("Placa: ", DadosRelatorioCesv.placa);
+                texto2.SetTextSize(ComplexUnitType.Px, 50);
+                mainLayout.AddView(texto2);
+
+                var texto3 = new TextView(this);
+                texto3.Text = string.Concat("Cliente: ", DadosRelatorioCesv.nomeCliente);
+                texto3.SetTextSize(ComplexUnitType.Px, 50);
+                mainLayout.AddView(texto3);
+
+                var texto4 = new TextView(this);
+                texto4.Text = string.Concat("Transportadora: ", DadosRelatorioCesv.nomeTransportadora);
+                texto4.SetTextSize(ComplexUnitType.Px, 50);
+                mainLayout.AddView(texto4);
+
+                var texto5 = new TextView(this);
+                texto5.Text = string.Concat("Motorista: ", DadosRelatorioCesv.nome);
+                texto5.SetTextSize(ComplexUnitType.Px, 50);
+                mainLayout.AddView(texto5);
+
+                var texto6 = new TextView(this);
+                texto6.Text = string.Concat("Status: ", DadosRelatorioCesv.statusInicio);
+                texto6.SetTextSize(ComplexUnitType.Px, 50);
+                mainLayout.AddView(texto6);
 
                 for (int n = 0; n < DadosRelatorioCesv.ListaDestinos.Count -1; n++)
                 {
                     var aButton = new Button(this);
-                    aButton.LayoutParameters = linearLayoutParams;
-                    aButton.SetTextColor(new r.ColorStateList(new int[][] { new int[] { } }, new int[] { Color.White.ToArgb() }));
+                    aButton.LayoutParameters = LayoutParams;
+                    //aButton.SetBackgroundResource(Color.Rgb(10 ,10 ,10));
+                    //aButton.DrawingCacheBackgroundColor = Color.ParseColor("#FF6A00");
+                    aButton.SetBackgroundColor(Color.ParseColor(DadosRelatorioCesv.ListaDestinos[n].cor));
+                    aButton.SetTextColor(Color.ParseColor("#ffffff"));
+                    
+                    //aButton.;
+                    //aButton.SetTextColor(GetColor(Resource.Color.blue_agend));
+                    //aButton.SetTextColor(new r.ColorStateList(new int[][] { new int[] { } }, new int[] { Color.White.ToArgb() }));
                     aButton.Id = Convert.ToInt32(DadosRelatorioCesv.ListaDestinos[n].statusId);
                     aButton.Text = DadosRelatorioCesv.ListaDestinos[n].denominacao;
+                    aButton.SetTextSize(ComplexUnitType.Px, 100);
                     aButton.Click += delegate (object sender, EventArgs e)
                     {
                         string indice = (sender as Button).Id.ToString();
@@ -122,6 +164,8 @@ namespace Sample.Android
                         StartActivity(typeof(LoginActivity));
                         Finish();
                     };
+
+                    
 
                     mainLayout.AddView(aButton);
                 }

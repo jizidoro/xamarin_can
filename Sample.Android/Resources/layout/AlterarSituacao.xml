@@ -56,15 +56,15 @@
       android:padding="10dp" >
 
     <Button
-        android:id="@+id/buttonScan"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_weight="0.5"
-        android:scaleType="center"
-        android:textColor="@color/white_color"
-        android:text="QR Code" />
+      android:id="@+id/buttonScanCustomView"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_marginRight="10dp"
+      android:layout_marginEnd="10dp"
+      android:layout_weight="0.5"
+      android:scaleType="center"
+      android:textColor="@color/white_color"
+      android:text="Scanner QR code"/>
 
   </LinearLayout>
 </LinearLayout>

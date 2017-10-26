@@ -27,7 +27,11 @@ namespace Sample.Android
 
             var TokenAtual = await dadosToken.Where(x => x.data_att_token >= DateTime.Now).FirstOrDefaultAsync();
             var permissoes = await dadosPermissao.Where(x => x.armazemId == TokenAtual.armazemId).ToListAsync();
-            
+
+            TokenAtual.numeroCesv = "";
+            TokenAtual.cesvId = "";
+            db.InsertOrReplaceAsync(TokenAtual);
+
             var scrollView = new ScrollView(this)
             {
                 LayoutParameters =

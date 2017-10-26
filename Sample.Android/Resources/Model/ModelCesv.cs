@@ -15,6 +15,8 @@ namespace Sample.Android.Resources.Model
 
         public string statusInicioId { get; set; }
 
+        public string CorStatusInicio { get; set; }
+
         public string statusDestino {get; set; }
 
         public string statusDestinoId { get; set; }

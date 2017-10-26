@@ -17,6 +17,8 @@ namespace Sample.Android.Resources.Model
 
         public string statusInicioId { get; set; }
 
+        public string CorStatusInicio { get; set; }
+
         public string statusDestino {get; set; }
 
         public string placa {get; set; }
@@ -37,7 +39,7 @@ namespace Sample.Android.Resources.Model
 
         //public List<Status> ListaDestinos { get; set; }
 
-        public override string ToString() => string.Format("[Cesv:id={0}, cesvId={1}, numero={2}, statusInicio={3}, statusDestino={4} ,placa ={5} , nome ={6} , telefone ={7} , nomeCliente ={8} , nomeTransportadora ={9} , tipoVeiculo ={10} , dataAgendamentoEntrada ={11} ,armazemId ={12} statusInicioId ={13}]", id, cesvId, numero, statusInicio, statusDestino, placa, nome, telefone, nomeCliente, nomeTransportadora, tipoVeiculo, dataAgendamentoEntrada, armazemId, statusInicioId);
+        public override string ToString() => string.Format("[Cesv:id={0}, cesvId={1}, numero={2}, statusInicio={3}, statusDestino={4} ,placa ={5} , nome ={6} , telefone ={7} , nomeCliente ={8} , nomeTransportadora ={9} , tipoVeiculo ={10} , dataAgendamentoEntrada ={11} ,armazemId ={12} statusInicioId ={13} ,CorStatusInicio{14}]", id, cesvId, numero, statusInicio, statusDestino, placa, nome, telefone, nomeCliente, nomeTransportadora, tipoVeiculo, dataAgendamentoEntrada, armazemId, statusInicioId, CorStatusInicio);
     }
 
 }

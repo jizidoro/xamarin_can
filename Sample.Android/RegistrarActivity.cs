@@ -1,52 +1,25 @@
-﻿using Android.App;
+﻿using Android.Widget;
 using Android.OS;
-using Android.Widget;
-using Sample.Android.Resources.Model;
-using SQLite;
-using System;
-using System.IO;
+using Android;
+using Android.App;
+using Android.Support.V7.App;
 
-namespace Sample.Android
+public class RegistrarActivity : AppCompatActivity
 {
-    [Activity(Label = "RegistrarActivity")]
-    public class RegistrarActivity : Activity
+    Button register;
+    EditText userName, phoneNo, password;
+
+    protected override void OnCreate(Bundle savedInstanceState)
     {
-        EditText txtNovoUsuario;
-        EditText txtSenhaNovoUsuario;
-        Button btnCriarNovoUsuario;
-
-        protected override void OnCreate(Bundle savedInstanceState)
-        {
-            base.OnCreate(savedInstanceState);
-            SetContentView(Resource.Layout.NovoUsuario);
-
-            btnCriarNovoUsuario = FindViewById<Button>(Resource.Id.btnConfigurar);
-            txtNovoUsuario = FindViewById<EditText>(Resource.Id.txtNovoUsuario);
-            txtSenhaNovoUsuario = FindViewById<EditText>(Resource.Id.txtSenhaNovoUsuario);
-
-            btnCriarNovoUsuario.Click += BtnCriarNovoUsuario_Click;
-        }
-        
-        private void BtnCriarNovoUsuario_Click(object sender, System.EventArgs e)
-        {
-            try
-            {
-                var connection = new SQLiteAsyncConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha4.db3"));
-                //connection.CreateTableAsync<Login>();
-
-                Login tblogin = new Login();
-                tblogin.usuario = txtNovoUsuario.Text;
-                tblogin.senha = txtSenhaNovoUsuario.Text;
-                
-                connection.InsertAsync(tblogin);
-
-                Toast.MakeText(this, "Registro incluído com sucesso...,", ToastLength.Short).Show();
-            }
-            catch (Exception ex)
-            {
-                Toast.MakeText(this, ex.ToString(), ToastLength.Short).Show();
-            }
-        }
-        
+        base.OnCreate(savedInstanceState);
+        /*
+        SetContentView(Resource.Layout.NovoUsuario);
+        // init the View's
+        userName = FindViewById<EditText>(Resource.Id.userName);
+        phoneNo = FindViewById<EditText>(Resource.Id.phoneNo);
+        password = FindViewById<EditText>(Resource.Id.password);
+        register = FindViewById<Button>(Resource.Id.register);
+        // perform setOnClickListener Event on Register Button
+        */
     }
 }
