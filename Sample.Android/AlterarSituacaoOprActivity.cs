@@ -122,7 +122,7 @@ namespace Sample.Android
                 texto6.SetTextSize(ComplexUnitType.Px, 50);
                 mainLayout.AddView(texto6);
 
-                for (int n = 0; n < DadosRelatorioCesv.ListaDestinos.Count -1; n++)
+                for (int n = 0; n < DadosRelatorioCesv.ListaDestinos.Count; n++)
                 {
                     var aButton = new Button(this);
                     aButton.LayoutParameters = LayoutParams;
@@ -141,7 +141,7 @@ namespace Sample.Android
                     {
                         string indice = (sender as Button).Id.ToString();
 
-                        string urlPost = "http://" + configuracao.endereco + "/Api/GerenciamentoPatio/PostCesvAlteracaoStatus?CesvId=" + DadosRelatorioCesv.cesvId + "&StatusOrigemId=" + DadosRelatorioCesv.statusInicioId + "&StatusDestinoId=" + indice;
+                        string urlPost = "http://" + configuracao.endereco + "/Api/GerenciamentoPatio/PostCesvAlteracaoStatus?CesvId=" + DadosRelatorioCesv.cesvId + "&StatusOrigemId=" + DadosRelatorioCesv.statusInicioId + "&StatusDestinoId=" + indice + "&UsuarioCod=" + TokenAtual.loginId;
                         System.Uri myUriPost = new System.Uri(urlPost);
                         HttpWebRequest myWebRequestPost = (HttpWebRequest)HttpWebRequest.Create(myUriPost);
                         

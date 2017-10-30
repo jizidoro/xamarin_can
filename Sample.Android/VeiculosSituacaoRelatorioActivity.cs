@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
+using Android.Graphics;
+using Android.Views;
 
 namespace Sample.Android
 {
@@ -40,8 +42,11 @@ namespace Sample.Android
             RelatorioCesv.Add(string.Concat("Data do agendamento: ", DadosRelatorioCesv.dataAgendamentoEntrada));
 
             ListAdapter = new ArrayAdapter<string>(this, Resource.Layout.VeiculosSituacaoRelatorio, RelatorioCesv);
-
+            //ListView.SetBackgroundColor(Color.ParseColor("#ff0000"));
             ListView.TextFilterEnabled = true;
+
+            //View v = ListAdapter.GetView(2, ListView,);
+            //ListView.GetView(position, convertView, parent);
 
             ListView.ItemClick += delegate (object sender, AdapterView.ItemClickEventArgs args)
             {
@@ -59,6 +64,7 @@ namespace Sample.Android
             };
 
         }
+
 
         public static VeiculosSituacaoRelatorioActivity GetInstace()
         {
