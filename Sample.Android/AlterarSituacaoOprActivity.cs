@@ -13,6 +13,7 @@ using System.IO;
 using System.Net;
 using System.Text;
 using Android.Util;
+using DialogConfirmacao;
 
 namespace Sample.Android
 {
@@ -122,6 +123,10 @@ namespace Sample.Android
                 texto6.SetTextSize(ComplexUnitType.Px, 50);
                 mainLayout.AddView(texto6);
 
+                
+
+
+                
                 for (int n = 0; n < DadosRelatorioCesv.ListaDestinos.Count; n++)
                 {
                     var aButton = new Button(this);
@@ -139,34 +144,45 @@ namespace Sample.Android
                     aButton.SetTextSize(ComplexUnitType.Px, 100);
                     aButton.Click += delegate (object sender, EventArgs e)
                     {
-                        string indice = (sender as Button).Id.ToString();
 
-                        string urlPost = "http://" + configuracao.endereco + "/Api/GerenciamentoPatio/PostCesvAlteracaoStatus?CesvId=" + DadosRelatorioCesv.cesvId + "&StatusOrigemId=" + DadosRelatorioCesv.statusInicioId + "&StatusDestinoId=" + indice + "&UsuarioCod=" + TokenAtual.loginId;
-                        System.Uri myUriPost = new System.Uri(urlPost);
-                        HttpWebRequest myWebRequestPost = (HttpWebRequest)HttpWebRequest.Create(myUriPost);
+                        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+                        alert.SetTitle("Confirma a alteração da situação da CESV ?");
+                        alert.SetPositiveButton("Confirma", (senderAlert, args) => {
+                            string indice = (sender as Button).Id.ToString();
+
+                            string urlPost = "http://" + configuracao.endereco + "/Api/GerenciamentoPatio/PostCesvAlteracaoStatus?CesvId=" + DadosRelatorioCesv.cesvId + "&StatusOrigemId=" + DadosRelatorioCesv.statusInicioId + "&StatusDestinoId=" + indice + "&UsuarioCod=" + TokenAtual.loginId;
+                            System.Uri myUriPost = new System.Uri(urlPost);
+                            HttpWebRequest myWebRequestPost = (HttpWebRequest)HttpWebRequest.Create(myUriPost);
+
+                            var myHttpWebRequestPost = (HttpWebRequest)myWebRequestPost;
+                            myHttpWebRequestPost.PreAuthenticate = true;
+                            myHttpWebRequestPost.Method = "POST";
+                            myHttpWebRequestPost.ContentLength = 0;
+                            myHttpWebRequestPost.Headers.Add("Authorization", "Bearer " + TokenAtual.access_token);
+                            myHttpWebRequestPost.Accept = "application/json";
+
+                            var myWebResponsePost = myWebRequestPost.GetResponse();
+                            var responseStreamPost = myWebResponsePost.GetResponseStream();
+
+                            var myStreamReaderPost = new StreamReader(responseStreamPost, Encoding.Default);
+                            var jsonPost = myStreamReaderPost.ReadToEnd();
+
+                            responseStreamPost.Close();
+                            myWebResponsePost.Close();
+                            Toast.MakeText(Application, "Cesv alterada com sucesso!", ToastLength.Long).Show();
+                            StartActivity(typeof(LoginActivity));
+                            Finish();
+                        });
+
+                        alert.SetNegativeButton("Cancela", (senderAlert, args) => {
+                            //Toast.MakeText(Activity, "Cancelado!", ToastLength.Short).Show();
+                        });
+
+                        Dialog dialog = alert.Create();
+                        dialog.Show();
+
                         
-                        var myHttpWebRequestPost = (HttpWebRequest)myWebRequestPost;
-                        myHttpWebRequestPost.PreAuthenticate = true;
-                        myHttpWebRequestPost.Method = "POST";
-                        myHttpWebRequestPost.ContentLength = 0;
-                        myHttpWebRequestPost.Headers.Add("Authorization", "Bearer " + TokenAtual.access_token);
-                        myHttpWebRequestPost.Accept = "application/json";
-
-                        var myWebResponsePost = myWebRequestPost.GetResponse();
-                        var responseStreamPost = myWebResponsePost.GetResponseStream();
-
-                        var myStreamReaderPost = new StreamReader(responseStreamPost, Encoding.Default);
-                        var jsonPost = myStreamReaderPost.ReadToEnd();
-
-                        responseStreamPost.Close();
-                        myWebResponsePost.Close();
-                        Toast.MakeText(Application, "Cesv alterada com sucesso!", ToastLength.Long).Show();
-                        StartActivity(typeof(LoginActivity));
-                        Finish();
                     };
-
-                    
-
                     mainLayout.AddView(aButton);
                 }
             }

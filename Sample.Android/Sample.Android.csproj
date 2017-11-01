@@ -168,6 +168,7 @@
     <Compile Include="HistoricoAlertasActivity.cs" />
     <Compile Include="ConfiguracaoTask.cs" />
     <Compile Include="LoginTask.cs" />
+    <Compile Include="DialogFragment2.cs" />
     <Compile Include="Resources\Model\HistoricoAlertas.cs" />
     <Compile Include="Resources\Model\ModelArmazem.cs" />
     <Compile Include="Resources\Model\ModelEmpresa.cs" />
@@ -182,7 +183,7 @@
     <Compile Include="SelecionaArmazemActivity.cs" />
     <Compile Include="LoginActivity.cs" />
     <Compile Include="MainActivity.cs" />
-    <Compile Include="RegistrarActivity.cs" />
+    <Compile Include="DialogFragment1.cs" />
     <Compile Include="Resources\Model\Token.cs" />
     <Compile Include="Resources\Model\Login.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
@@ -242,7 +243,7 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\NovoUsuario.xml">
+    <AndroidResource Include="Resources\layout\DialogFragment1Layout.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

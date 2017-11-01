@@ -45,7 +45,7 @@ public class ConfiguracaoTask : AsyncTask
             System.Uri myUri = new System.Uri(url);
             HttpWebRequest myWebRequest = (HttpWebRequest)HttpWebRequest.Create(myUri);
             myWebRequest.Method = "GET";
-
+            myWebRequest.Timeout = 5000;
             myWebResponse = myWebRequest.GetResponse();
             var responseStream = myWebResponse.GetResponseStream();
 
@@ -57,6 +57,7 @@ public class ConfiguracaoTask : AsyncTask
 
 
             var db = new SQLiteConnection(dbPath);
+            db.Execute("DELETE FROM Configuracao");
             var dadosConfiguracao = db.Table<Configuracao>();
 
             Configuracao NovaConfiguracao = new Configuracao();

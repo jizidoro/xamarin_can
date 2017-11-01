@@ -34,7 +34,7 @@ namespace Sample.Android
             btnConfigurar = FindViewById<Button>(Resource.Id.btnConfigurar);
             btnConfigurar.Click += delegate (object sender, EventArgs e)
             {
-                db.ExecuteAsync("DELETE FROM Configuracao");
+                
                 
                 new ConfiguracaoTask(this).Execute(txtEndereco.Text);
                 
