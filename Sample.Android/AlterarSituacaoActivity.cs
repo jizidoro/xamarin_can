@@ -9,6 +9,13 @@ using System.Collections.Generic;
 using Android.Views;
 using ZXing;
 using ZXing.Mobile;
+using Android.Util;
+using System.Text;
+using System.IO;
+using System.Security.Cryptography;
+using System.Web.Services;
+using System.Net;
+using System.Web;
 //
 namespace Sample.Android
 {
@@ -25,6 +32,8 @@ namespace Sample.Android
         protected async override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
+
+
 
             // Initialize the scanner first so we can track the current context
             MobileBarcodeScanner.Initialize(Application);
@@ -51,7 +60,7 @@ namespace Sample.Android
             btnOpr.Click += delegate (object sender, EventArgs e)
             {
                 
-                TokenAtual.numeroCesv = txtCesv.Text;
+                TokenAtual.numeroCesv = HttpUtility.UrlEncode(GeraQrCriptografado(txtCesv.Text));
                 db.InsertOrReplaceAsync(TokenAtual);
 
 
@@ -79,9 +88,31 @@ namespace Sample.Android
 
                 HandleScanResult(result);
             };
+
+            btnOpr.SetTextSize(ComplexUnitType.Sp, 25);
+            buttonScanCustomView.SetTextSize(ComplexUnitType.Sp, 25);
         }
 
+        private static readonly byte[] Key = Encoding.UTF8.GetBytes("clkajsdlkjoizdfoi**9kldkjroijlk=");
+        private static readonly byte[] Iv = { 0x50, 0x08, 0xF1, 0xDD, 0xDE, 0x3C, 0xF2, 0x18, 0x44, 0x74, 0x19, 0x2C, 0x53, 0x49, 0xAB, 0xBC };
 
+
+        public static string GeraQrCriptografado(string dados)
+        {
+            var bytes = Encoding.UTF8.GetBytes(dados);
+            using (var aes = Aes.Create())
+            using (MemoryStream mStream = new MemoryStream())
+            using (CryptoStream encryptor = new CryptoStream(
+                mStream,
+                aes.CreateEncryptor(Key, Iv),
+                CryptoStreamMode.Write))
+            {
+                encryptor.Write(bytes, 0, bytes.Length);
+                encryptor.FlushFinalBlock();
+                var sb = new StringBuilder();
+                return Convert.ToBase64String(mStream.ToArray());
+            }
+        }
 
         private void btnQr_Click(object sender, EventArgs e)
         {
@@ -117,7 +148,7 @@ namespace Sample.Android
                 var db = new SQLiteConnection(dbPath);
                 var dadosToken = db.Table<Token>();
                 var TokenAtual = dadosToken.Where(x => x.data_att_token >= DateTime.Now).FirstOrDefault();
-                TokenAtual.numeroCesv = result.Text;
+                TokenAtual.numeroCesv = HttpUtility.UrlEncode(result.Text);
                 db.InsertOrReplace(TokenAtual);
                 db.Close();
             }

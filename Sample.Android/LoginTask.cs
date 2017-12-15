@@ -71,7 +71,7 @@ public class LoginTask : AsyncTask
 
             postStream.Write(byteArray, 0, byteArray.Length);
             postStream.Close();
-
+            myWebRequest.Timeout = 13000;
             myWebResponse = myWebRequest.GetResponse();
             var responseStream = myWebResponse.GetResponseStream();
             if (responseStream == null) return null;

@@ -39,6 +39,10 @@ namespace Sample.Android.Resources.Model
 
         public string msg { get; set; }
 
+        public string DataFimAgendamentoPatio { get; set; }
+
+        public string DataInicioAgendamentoPatio { get; set; }
+
         public List<Status> ListaDestinos { get; set; }
     }
 

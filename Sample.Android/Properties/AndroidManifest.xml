@@ -1,13 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" android:installLocation="auto" package="com.altusapps.zxingnetmobile">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" android:installLocation="auto" package="b3GestaoPatio">
 	<uses-sdk android:targetSdkVersion="25" android:minSdkVersion="14" />
-  <application
-        android:allowBackup="true"
-        android:icon="@drawable/ic_icon_b3_2"
-        android:logo="@drawable/ic_logo_b3"
-        android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
-  </application>
+	<application android:allowBackup="true" android:icon="@drawable/ic_icon_b3_2" android:logo="@drawable/ic_logo_b3" android:label="@string/app_name" android:theme="@style/AppTheme"></application>
 	<uses-permission android:name="android.permission.VIBRATE" />
 	<uses-permission android:name="android.permission.FLASHLIGHT" />
 	<uses-permission android:name="android.permission.CAMERA" />

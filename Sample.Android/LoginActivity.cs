@@ -10,23 +10,24 @@ using System.Drawing;
 using System.IO;
 using System.Net;
 using System.Text;
+using Android.Util;
 
 namespace Sample.Android
 {
     [Activity(Label = "Ações")]
     public class LoginActivity : Activity
     {
+        string dbPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha4.db3");
         protected async override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
             
-            string dbPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha4.db3");
             var db = new SQLiteAsyncConnection(dbPath);
             var dadosToken = db.Table<Token>();
             var dadosPermissao = db.Table<Permissao>();
 
             var TokenAtual = await dadosToken.Where(x => x.data_att_token >= DateTime.Now).FirstOrDefaultAsync();
-            var permissoes = await dadosPermissao.Where(x => x.armazemId == TokenAtual.armazemId).ToListAsync();
+            var permissoes = await dadosPermissao.Where(x => x.armazemId == TokenAtual.armazemId).OrderBy(x => x.denominacao).ToListAsync();
 
             TokenAtual.numeroCesv = "";
             TokenAtual.cesvId = "";
@@ -52,11 +53,12 @@ namespace Sample.Android
 
             LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MatchParent, LinearLayout.LayoutParams.WrapContent);
             linearLayoutParams.SetMargins(10, 0, 10, 0);
-            linearLayoutParams.Weight = Convert.ToSingle(0.5);
+            //linearLayoutParams.Weight = Convert.ToSingle(0.5);
 
             for (int n = 0; n < permissoes.Count ; n++)
             {
                 var aButton = new Button(this);
+                
                 aButton.LayoutParameters = linearLayoutParams;
                 aButton.SetTextColor(new r.ColorStateList(new int[][] { new int[] { } }, new int[] { Color.White.ToArgb() }));
 
@@ -78,7 +80,7 @@ namespace Sample.Android
                         Console.WriteLine("Default case");
                         break;
                 }
-
+                aButton.SetTextSize(ComplexUnitType.Sp, 25);
                 mainLayout.AddView(aButton);
             }
 
@@ -87,7 +89,16 @@ namespace Sample.Android
             configButton.SetTextColor(new r.ColorStateList(new int[][] { new int[] { } }, new int[] { Color.White.ToArgb() }));
             configButton.Text = "Configuração";
             configButton.Click += BtnCriar_Click4;
+            configButton.SetTextSize(ComplexUnitType.Sp, 25);
             mainLayout.AddView(configButton);
+
+            var logoutButton = new Button(this);
+            logoutButton.LayoutParameters = linearLayoutParams;
+            logoutButton.SetTextColor(new r.ColorStateList(new int[][] { new int[] { } }, new int[] { Color.White.ToArgb() }));
+            logoutButton.Text = "Sair";
+            logoutButton.Click += BtnCriar_Click5;
+            logoutButton.SetTextSize(ComplexUnitType.Sp, 25);
+            mainLayout.AddView(logoutButton);
         }
 
 
@@ -171,6 +182,15 @@ namespace Sample.Android
             //Toast.MakeText(this, "ConfiguracaoActivity...,", ToastLength.Short).Show();
             StartActivity(typeof(ConfiguracaoActivity));
             Finish();
+        }
+
+        private void BtnCriar_Click5(object sender, EventArgs e)
+        {
+            var db = new SQLiteAsyncConnection(dbPath);
+            db.ExecuteAsync("DELETE FROM Token");
+            
+            StartActivity(typeof(MainActivity));
+            FinishAffinity();
         }
     }
 }

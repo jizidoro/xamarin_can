@@ -9,6 +9,7 @@ using ZXing.Mobile;
 using System;
 using SQLite;
 using Sample.Android.Resources.Model;
+using System.Web;
 
 namespace Sample.Android
 {
@@ -127,7 +128,7 @@ namespace Sample.Android
                 var db = new SQLiteConnection(dbPath);
                 var dadosToken = db.Table<Token>();
                 var TokenAtual = dadosToken.Where(x => x.data_att_token >= DateTime.Now).FirstOrDefault();
-                TokenAtual.numeroCesv = result.Text;
+                TokenAtual.numeroCesv = HttpUtility.UrlEncode(result.Text);
                 db.InsertOrReplace(TokenAtual);
                 db.Close();
             }

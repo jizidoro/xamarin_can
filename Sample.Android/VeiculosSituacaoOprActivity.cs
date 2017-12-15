@@ -33,7 +33,7 @@ namespace Sample.Android
             
             foreach (var item in ListaCesv.OrderBy(x => x.placa))
             {
-                OprCesv.Add(string.Format("{0} - {1}", item.placa, item.nome));
+                OprCesv.Add(string.Format("{0} - {1}", item.placa.ToUpper(), item.nome));
                 OprIdCesv.Add(Convert.ToInt32(item.cesvId));
             }
 

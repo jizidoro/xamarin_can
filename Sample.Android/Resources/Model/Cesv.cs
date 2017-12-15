@@ -37,9 +37,15 @@ namespace Sample.Android.Resources.Model
 
         public string armazemId { get; set; }
 
+        public string DataInicioAgendamentoPatio { get; set; }
+
+        public string DataFimAgendamentoPatio { get; set; }
+
+        
+
         //public List<Status> ListaDestinos { get; set; }
 
-        public override string ToString() => string.Format("[Cesv:id={0}, cesvId={1}, numero={2}, statusInicio={3}, statusDestino={4} ,placa ={5} , nome ={6} , telefone ={7} , nomeCliente ={8} , nomeTransportadora ={9} , tipoVeiculo ={10} , dataAgendamentoEntrada ={11} ,armazemId ={12} statusInicioId ={13} ,CorStatusInicio{14}]", id, cesvId, numero, statusInicio, statusDestino, placa, nome, telefone, nomeCliente, nomeTransportadora, tipoVeiculo, dataAgendamentoEntrada, armazemId, statusInicioId, CorStatusInicio);
+        public override string ToString() => string.Format("[Cesv:id={0}, cesvId={1}, numero={2}, statusInicio={3}, statusDestino={4} ,placa ={5} , nome ={6} , telefone ={7} , nomeCliente ={8} , nomeTransportadora ={9} , tipoVeiculo ={10} , dataAgendamentoEntrada ={11} ,armazemId ={12} statusInicioId ={13} ,CorStatusInicio{14} , DataInicioAgendamentoPatio ={15} , DataFimAgendamentoPatio ={16}]", id, cesvId, numero, statusInicio, statusDestino, placa, nome, telefone, nomeCliente, nomeTransportadora, tipoVeiculo, dataAgendamentoEntrada, armazemId, statusInicioId, CorStatusInicio , DataInicioAgendamentoPatio, DataFimAgendamentoPatio);
     }
 
 }

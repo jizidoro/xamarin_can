@@ -45,7 +45,7 @@ public class ConfiguracaoTask : AsyncTask
             System.Uri myUri = new System.Uri(url);
             HttpWebRequest myWebRequest = (HttpWebRequest)HttpWebRequest.Create(myUri);
             myWebRequest.Method = "GET";
-            myWebRequest.Timeout = 5000;
+            myWebRequest.Timeout = 13000;
             myWebResponse = myWebRequest.GetResponse();
             var responseStream = myWebResponse.GetResponseStream();
 

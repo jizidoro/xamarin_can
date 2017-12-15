@@ -57,70 +57,79 @@ namespace Sample.Android
             if (string.IsNullOrEmpty(DadosRelatorioCesv.msg))
             { 
                 RelatorioCesv.Add(string.Concat("Numero: ", DadosRelatorioCesv.numero));
-                RelatorioCesv.Add(string.Concat("Placa: ", DadosRelatorioCesv.placa));
+                RelatorioCesv.Add(string.Concat("Placa: ", DadosRelatorioCesv.placa.ToUpper()));
                 RelatorioCesv.Add(string.Concat("Status: ", DadosRelatorioCesv.statusInicio));
                 RelatorioCesv.Add(string.Concat("Motorista: ", DadosRelatorioCesv.nome));
                 RelatorioCesv.Add(string.Concat("Telefone: ", DadosRelatorioCesv.telefone));
                 RelatorioCesv.Add(string.Concat("Cliente: ", DadosRelatorioCesv.nomeCliente));
                 RelatorioCesv.Add(string.Concat("Transportadora: ", DadosRelatorioCesv.nomeTransportadora));
                 RelatorioCesv.Add(string.Concat("Tipo do veículo: ", DadosRelatorioCesv.tipoVeiculo));
-                RelatorioCesv.Add(string.Concat("Data do agendamento: ", DadosRelatorioCesv.dataAgendamentoEntrada));
+                RelatorioCesv.Add(string.Concat("Hora início: ", DadosRelatorioCesv.DataInicioAgendamentoPatio));
+                RelatorioCesv.Add(string.Concat("Hora fim: ", DadosRelatorioCesv.DataFimAgendamentoPatio));
 
 
 
-                var scrollView = new ScrollView(this)
-                {
-                    LayoutParameters =
-                              new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent)
-                };
 
-                this.SetContentView(scrollView);
-
-                var mainLayout = new LinearLayout(this)
-                {
-                    Orientation = Orientation.Vertical, WeightSum = 2,
-                    LayoutParameters =
-                               new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent)
-
-                };
-
-                scrollView.AddView(mainLayout);
-
+                
                 LinearLayout.LayoutParams LayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MatchParent, LinearLayout.LayoutParams.MatchParent);
                 //LayoutParams.Height = LinearLayout.LayoutParams.MatchParent;
                 //LayoutParams.Width = LinearLayout.LayoutParams.MatchParent;
                 LayoutParams.Weight = 1;
-                LayoutParams.SetMargins(10, 10, 10, 10);
+                LayoutParams.SetMargins(10, 3, 10, 0);
                 //LinearLayoutParams.Weight = Convert.ToSingle(0.5);
+
+
+                var scrollView = new ScrollView(this)
+                {
+                    LayoutParameters = LayoutParams
+                };
+
+                this.SetContentView(scrollView);
+
+
+                var mainLayout = new LinearLayout(this)
+                {
+                    Orientation = Orientation.Vertical,
+                    WeightSum = 2,
+                    LayoutParameters = LayoutParams
+                };
+
+                scrollView.AddView(mainLayout);
 
                 var texto1 = new TextView(this);
                 texto1.Text = string.Concat("Numero: ", DadosRelatorioCesv.numero);
-                texto1.SetTextSize(ComplexUnitType.Px, 50);
+                texto1.LayoutParameters = LayoutParams;
+                texto1.SetTextSize(ComplexUnitType.Sp, 15);
                 mainLayout.AddView(texto1);
 
                 var texto2 = new TextView(this);
                 texto2.Text = string.Concat("Placa: ", DadosRelatorioCesv.placa);
-                texto2.SetTextSize(ComplexUnitType.Px, 50);
+                texto2.LayoutParameters = LayoutParams;
+                texto2.SetTextSize(ComplexUnitType.Sp, 15);
                 mainLayout.AddView(texto2);
 
                 var texto3 = new TextView(this);
                 texto3.Text = string.Concat("Cliente: ", DadosRelatorioCesv.nomeCliente);
-                texto3.SetTextSize(ComplexUnitType.Px, 50);
+                texto3.LayoutParameters = LayoutParams;
+                texto3.SetTextSize(ComplexUnitType.Sp, 15);
                 mainLayout.AddView(texto3);
 
                 var texto4 = new TextView(this);
                 texto4.Text = string.Concat("Transportadora: ", DadosRelatorioCesv.nomeTransportadora);
-                texto4.SetTextSize(ComplexUnitType.Px, 50);
+                texto4.LayoutParameters = LayoutParams;
+                texto4.SetTextSize(ComplexUnitType.Sp, 15);
                 mainLayout.AddView(texto4);
 
                 var texto5 = new TextView(this);
                 texto5.Text = string.Concat("Motorista: ", DadosRelatorioCesv.nome);
-                texto5.SetTextSize(ComplexUnitType.Px, 50);
+                texto5.LayoutParameters = LayoutParams;
+                texto5.SetTextSize(ComplexUnitType.Sp, 15);
                 mainLayout.AddView(texto5);
 
                 var texto6 = new TextView(this);
                 texto6.Text = string.Concat("Status: ", DadosRelatorioCesv.statusInicio);
-                texto6.SetTextSize(ComplexUnitType.Px, 50);
+                texto6.LayoutParameters = LayoutParams;
+                texto6.SetTextSize(ComplexUnitType.Sp, 15);
                 mainLayout.AddView(texto6);
 
                 
@@ -141,7 +150,7 @@ namespace Sample.Android
                     //aButton.SetTextColor(new r.ColorStateList(new int[][] { new int[] { } }, new int[] { Color.White.ToArgb() }));
                     aButton.Id = Convert.ToInt32(DadosRelatorioCesv.ListaDestinos[n].statusId);
                     aButton.Text = DadosRelatorioCesv.ListaDestinos[n].denominacao;
-                    aButton.SetTextSize(ComplexUnitType.Px, 100);
+                    aButton.SetTextSize(ComplexUnitType.Sp, 50);
                     aButton.Click += delegate (object sender, EventArgs e)
                     {
 

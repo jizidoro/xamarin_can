@@ -53,7 +53,7 @@ namespace Sample.Android
 
             var teste = JsonConvert.DeserializeObject<List<ModelStatus>>(json);
             
-            foreach (var item in teste)
+            foreach (var item in teste.OrderBy(x => x.denominacao))
             {
                 ListaStatus.Add(string.Concat(item.denominacao , " (", item.ListaCesv.Where(x => x.armazemId == TokenAtual.armazemId).Count(),")"));
                 IdStatus.Add(Convert.ToInt32(item.statusId));

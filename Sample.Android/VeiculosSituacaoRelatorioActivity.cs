@@ -24,15 +24,15 @@ public class VeiculosSituacaoRelatorioActivity : ListActivity
         var DadosRelatorioCesv = await dadosCesv.Where(x => x.armazemId == TokenAtual.armazemId && x.cesvId == TokenAtual.cesvId).FirstOrDefaultAsync();
 
         RelatorioCesv.Add(string.Concat("Numero: ", DadosRelatorioCesv.numero));
-        RelatorioCesv.Add(string.Concat("Placa: ", DadosRelatorioCesv.placa));
+        RelatorioCesv.Add(string.Concat("Placa: ", DadosRelatorioCesv.placa.ToUpper()));
         RelatorioCesv.Add(string.Concat("Status: ", DadosRelatorioCesv.statusInicio));
         RelatorioCesv.Add(string.Concat("Motorista: ", DadosRelatorioCesv.nome));
         RelatorioCesv.Add(string.Concat("Telefone: ", DadosRelatorioCesv.telefone));
         RelatorioCesv.Add(string.Concat("Cliente: ", DadosRelatorioCesv.nomeCliente));
         RelatorioCesv.Add(string.Concat("Transportadora: ", DadosRelatorioCesv.nomeTransportadora));
         RelatorioCesv.Add(string.Concat("Tipo do veículo: ", DadosRelatorioCesv.tipoVeiculo));
-        RelatorioCesv.Add(string.Concat("Data do agendamento: ", DadosRelatorioCesv.dataAgendamentoEntrada));
-
+        RelatorioCesv.Add(string.Concat("Hora início: ", DadosRelatorioCesv.DataInicioAgendamentoPatio));
+        RelatorioCesv.Add(string.Concat("Hora fim: ", DadosRelatorioCesv.DataFimAgendamentoPatio));
 
         ListAdapter = new HomeScreenAdapter(this, RelatorioCesv);
         //ListView.SetBackgroundColor(Color.ParseColor("#ff0000"));
