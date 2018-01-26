@@ -19,10 +19,7 @@ public class LoginTask : AsyncTask
 
     public bool TokenAtual = false;
 
-    public LoginTask(Context context)
-    {
-        _context = context;
-    }
+    public LoginTask(Context context) => _context = context;
 
     protected override void OnPreExecute()
     {
@@ -35,7 +32,7 @@ public class LoginTask : AsyncTask
         usuario = @params[0].ToString();
         senha = @params[1].ToString();
 
-        string dbPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha4.db3");
+        string dbPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "bancoB3.db3");
         var db2 = new SQLiteConnection(dbPath);
         db2.Close();
 
@@ -86,7 +83,7 @@ public class LoginTask : AsyncTask
             var teste = JsonConvert.DeserializeObject<Token>(json);
             teste.loginId = usuario;
             teste.data_att_token = DateTime.Now.AddSeconds(teste.expires_in);
-            var connection = new SQLiteAsyncConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha4.db3"));
+            var connection = new SQLiteAsyncConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "bancoB3.db3"));
 
             if (string.IsNullOrEmpty(teste.error))
             {

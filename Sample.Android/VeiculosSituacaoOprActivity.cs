@@ -17,7 +17,7 @@ namespace Sample.Android
     [Activity(Label = "Veículos")]
     public class VeiculosSituacaoOprActivity : ListActivity
     {
-        string dbPath = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha4.db3");
+        string dbPath = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "bancoB3.db3");
         protected async override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);

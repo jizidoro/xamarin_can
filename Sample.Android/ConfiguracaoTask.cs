@@ -17,10 +17,7 @@ public class ConfiguracaoTask : AsyncTask
     string txtEndereco;
     WebResponse myWebResponse = null;
 
-    public ConfiguracaoTask(Context context)
-    {
-        _context = context;
-    }
+    public ConfiguracaoTask(Context context) => _context = context;
 
     protected override void OnPreExecute()
     {
@@ -33,7 +30,7 @@ public class ConfiguracaoTask : AsyncTask
     {
         txtEndereco = @params[0].ToString();
 
-        string dbPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha4.db3");
+        string dbPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "bancoB3.db3");
         var db2 = new SQLiteConnection(dbPath);
         db2.Close();
         
@@ -76,11 +73,11 @@ public class ConfiguracaoTask : AsyncTask
             if (e.Status == WebExceptionStatus.ProtocolError)
             {
                 myWebResponse = (HttpWebResponse)e.Response;
-                var erro = ("Errorcode: {0}", myWebResponse);
+                //var erro = ("Errorcode: {0}", myWebResponse);
             }
             else
             {
-                var erro = ("Error: {0}", e.Status);
+                //var erro = ("Error: {0}", e.Status);
             }
         }
 

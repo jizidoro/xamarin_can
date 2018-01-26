@@ -19,7 +19,7 @@ namespace Sample.Android
         {
             base.OnCreate(bundle);
 
-            string dbPath = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha4.db3");
+            string dbPath = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "bancoB3.db3");
 
             var db = new SQLiteAsyncConnection(dbPath);
             var dadosConfiguracao = db.Table<Configuracao>();

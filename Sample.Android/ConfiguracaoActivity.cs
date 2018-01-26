@@ -27,16 +27,17 @@ namespace Sample.Android
             
             txtEndereco = FindViewById<EditText>(Resource.Id.txtEndereco);
 
-            string dbPath = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha4.db3");
+            string dbPath = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "bancoB3.db3");
             var db = new SQLiteAsyncConnection(dbPath);
             var dadosConfiguracao = db.Table<Configuracao>();
             
             btnConfigurar = FindViewById<Button>(Resource.Id.btnConfigurar);
             btnConfigurar.Click += delegate (object sender, EventArgs e)
             {
-                
-                
-                new ConfiguracaoTask(this).Execute(txtEndereco.Text);
+                if (!string.IsNullOrEmpty(txtEndereco.Text))
+                {
+                    new ConfiguracaoTask(this).Execute(txtEndereco.Text);
+                }
                 
             };
 
@@ -46,7 +47,6 @@ namespace Sample.Android
             {
                 txtEndereco.Text = configuracao.endereco;
             }
-
         }
 
         

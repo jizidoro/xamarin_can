@@ -21,7 +21,7 @@ namespace Sample.Android
     [Activity(NoHistory = true ,Label = "Situações")]
     public class AlterarSituacaoOprActivity : Activity
     {
-        string dbPath = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha4.db3");
+        string dbPath = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "bancoB3.db3");
         protected async override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -35,7 +35,7 @@ namespace Sample.Android
             var configuracao = await dadosConfiguracao.FirstOrDefaultAsync();
             var TokenAtual = await dadosToken.Where(x => x.data_att_token >= DateTime.Now).FirstOrDefaultAsync();
 
-            string url = "http://" + configuracao.endereco + "/Api/GerenciamentoPatio/GetCesvNumero?Numero="+ TokenAtual.numeroCesv + "&ArmazemId="+ TokenAtual.armazemId;
+            string url = "http://" + configuracao.endereco + "/Api/GerenciamentoPatio/GetCesvNumero?Numero="+ TokenAtual.numeroCesv + "&ArmazemId="+ TokenAtual.armazemId + "&UsuarioCod=" + TokenAtual.loginId;
             System.Uri myUri = new System.Uri(url);
             HttpWebRequest myWebRequest = (HttpWebRequest)HttpWebRequest.Create(myUri);
 

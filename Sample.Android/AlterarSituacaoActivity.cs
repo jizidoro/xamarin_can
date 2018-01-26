@@ -26,7 +26,7 @@ namespace Sample.Android
         Button btnOpr;
         Button buttonScanCustomView;
         EditText txtCesv;
-        string dbPath = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha4.db3");
+        string dbPath = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "bancoB3.db3");
         MobileBarcodeScanner scanner;
 
         protected async override void OnCreate(Bundle bundle)
@@ -59,12 +59,14 @@ namespace Sample.Android
             btnOpr = FindViewById<Button>(Resource.Id.buttonOpr);
             btnOpr.Click += delegate (object sender, EventArgs e)
             {
+                if(!string.IsNullOrEmpty(txtCesv.Text))
+                {
+                    TokenAtual.numeroCesv = HttpUtility.UrlEncode(GeraQrCriptografado(txtCesv.Text));
+                    db.InsertOrReplaceAsync(TokenAtual);
+                    StartActivity(typeof(AlterarSituacaoOprActivity));
+                }
+
                 
-                TokenAtual.numeroCesv = HttpUtility.UrlEncode(GeraQrCriptografado(txtCesv.Text));
-                db.InsertOrReplaceAsync(TokenAtual);
-
-
-                StartActivity(typeof(AlterarSituacaoOprActivity));
             };
 
             buttonScanCustomView = this.FindViewById<Button>(Resource.Id.buttonScanCustomView);
@@ -140,7 +142,7 @@ namespace Sample.Android
             if (result != null && !string.IsNullOrEmpty(result.Text))
             {
                 msg = "Found Barcode: " + result.Text;
-                string dbPath = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha4.db3");
+                string dbPath = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "bancoB3.db3");
 
                 var db2 = new SQLiteConnection(dbPath);
                 db2.Close();

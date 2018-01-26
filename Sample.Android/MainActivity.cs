@@ -26,7 +26,7 @@ namespace Sample.Android
             SetContentView(Resource.Layout.Main);
 
             
-            string dbPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha4.db3");
+            string dbPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "bancoB3.db3");
             
 
             Token TokenAtual = null;
@@ -98,7 +98,7 @@ namespace Sample.Android
         {
             try
             {
-                var connection = new SQLiteAsyncConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha4.db3"));
+                var connection = new SQLiteAsyncConnection(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "bancoB3.db3"));
                 connection.CreateTableAsync<Empresa>();
                 connection.CreateTableAsync<Armazem>();
                 connection.CreateTableAsync<Permissao>();

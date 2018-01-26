@@ -120,7 +120,7 @@ namespace Sample.Android
             if (result != null && !string.IsNullOrEmpty(result.Text))
             {
                 msg = "Found Barcode: " + result.Text;
-                string dbPath = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha4.db3");
+                string dbPath = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "bancoB3.db3");
 
                 var db2 = new SQLiteConnection(dbPath);
                 db2.Close();

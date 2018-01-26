@@ -17,7 +17,7 @@ namespace Sample.Android
     [Activity(Label = "Ações")]
     public class LoginActivity : Activity
     {
-        string dbPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha4.db3");
+        string dbPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "bancoB3.db3");
         protected async override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
@@ -128,7 +128,7 @@ namespace Sample.Android
 
         public async void webRequestTeste()
         {
-            string dbPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "sapoha4.db3");
+            string dbPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "bancoB3.db3");
 
             var db = new SQLiteAsyncConnection(dbPath);
             var dadosToken = db.Table<Token>();
