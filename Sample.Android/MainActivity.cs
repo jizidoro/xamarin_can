@@ -6,6 +6,7 @@ using Sample.Android.Resources.Model;
 using System;
 using System.IO;
 using Android.Content;
+using Android.Views;
 
 namespace Sample.Android
 {
@@ -16,8 +17,9 @@ namespace Sample.Android
         EditText txtSenha;
         Button btnLogin;
         Button btnConfigurar;
-        
-        private ProgressDialog _progressDialog;
+
+        //private ProgressDialog _progressDialog;
+        //private ProgressBar myProgressBar;
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -30,7 +32,7 @@ namespace Sample.Android
             
 
             Token TokenAtual = null;
-
+            //myProgressBar.Visibility = ViewStates.Visible;
 
             var db2 = new SQLiteConnection(dbPath);
             db2.CreateTable<Token>();
@@ -54,13 +56,14 @@ namespace Sample.Android
 
             btnLogin.Click += delegate (object sender, EventArgs e)
             {
+                //myProgressBar.Visibility = ViewStates.Gone;
                 try
                 {
-                    _progressDialog = new ProgressDialog(this) { Indeterminate = true };
-                    _progressDialog.SetTitle("Carregando");
+                    //_progressDialog = new ProgressDialog(this) { Indeterminate = true };
+                    //_progressDialog.SetTitle("Carregando");
 
-                    _progressDialog.Show();
-                    new LoginTask(this).Execute(txtUsuario.Text, txtSenha.Text);
+                    //_progressDialog.Show();
+                    new LoginTask(this).Execute(txtUsuario.Text.ToLower().Trim(), txtSenha.Text);
                 }
                 catch (Exception ex)
                 {

@@ -8,6 +8,10 @@ using Sample.Android.Resources.Model;
 using SQLite;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Security.Cryptography;
+using System.Text;
+using System.Web;
 
 [Activity(Label = "Dados da Cesv", Icon = "@drawable/icon")]
 public class VeiculosSituacaoRelatorioActivity : ListActivity
@@ -44,7 +48,7 @@ public class VeiculosSituacaoRelatorioActivity : ListActivity
             if (args.Position == 2)
             {
                 TokenAtual.cesvId = DadosRelatorioCesv.cesvId.ToString();
-                TokenAtual.numeroCesv = DadosRelatorioCesv.numero.ToString();
+                TokenAtual.numeroCesv = HttpUtility.UrlEncode(GeraQrCriptografado(DadosRelatorioCesv.numero.ToString()));
                 db.InsertOrReplaceAsync(TokenAtual);
                 //Toast.MakeText(Application, OprCesv[args.Position], ToastLength.Short).Show();
                 StartActivity(typeof(AlterarSituacaoOprActivity));
@@ -64,7 +68,26 @@ public class VeiculosSituacaoRelatorioActivity : ListActivity
         Android.Widget.Toast.MakeText(this, t, Android.Widget.ToastLength.Short).Show();
     }
 
+    private static readonly byte[] Key = Encoding.UTF8.GetBytes("clkajsdlkjoizdfoi**9kldkjroijlk=");
+    private static readonly byte[] Iv = { 0x50, 0x08, 0xF1, 0xDD, 0xDE, 0x3C, 0xF2, 0x18, 0x44, 0x74, 0x19, 0x2C, 0x53, 0x49, 0xAB, 0xBC };
 
+
+    public static string GeraQrCriptografado(string dados)
+    {
+        var bytes = Encoding.UTF8.GetBytes(dados);
+        using (var aes = Aes.Create())
+        using (MemoryStream mStream = new MemoryStream())
+        using (CryptoStream encryptor = new CryptoStream(
+            mStream,
+            aes.CreateEncryptor(Key, Iv),
+            CryptoStreamMode.Write))
+        {
+            encryptor.Write(bytes, 0, bytes.Length);
+            encryptor.FlushFinalBlock();
+            var sb = new StringBuilder();
+            return Convert.ToBase64String(mStream.ToArray());
+        }
+    }
 
     public class HomeScreenAdapter : BaseAdapter<string>
     {
@@ -105,12 +128,6 @@ public class VeiculosSituacaoRelatorioActivity : ListActivity
 
     }
 
-    public static VeiculosSituacaoRelatorioActivity GetInstace()
-    {
-        return activity;
-    }
-
-    static VeiculosSituacaoRelatorioActivity activity;
 
     public List<string> RelatorioCesv = new List<string>();
     public List<int> IdCesv = new List<int>();

@@ -31,7 +31,7 @@ namespace Sample.Android
 
             TokenAtual.numeroCesv = "";
             TokenAtual.cesvId = "";
-            db.InsertOrReplaceAsync(TokenAtual);
+            await db.InsertOrReplaceAsync(TokenAtual);
 
             var scrollView = new ScrollView(this)
             {
@@ -136,7 +136,7 @@ namespace Sample.Android
             var configuracao = await dadosConfiguracao.FirstOrDefaultAsync();
             var TokenAtual = await dadosToken.Where(x => x.data_att_token >= DateTime.Now).FirstOrDefaultAsync();
 
-            string url = "http://" + configuracao.endereco + "/Api/GerenciamentoPatio/GetCesvByStatus";
+            string url = "http://" + configuracao.endereco + "/Api/GerenciamentoPatio/GetCesvByStatus?ArmazemId=" + TokenAtual.armazemId;
             System.Uri myUri = new System.Uri(url);
             HttpWebRequest myWebRequest = (HttpWebRequest)HttpWebRequest.Create(myUri);
             var myHttpWebRequest = (HttpWebRequest)myWebRequest;

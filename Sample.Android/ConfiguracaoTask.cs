@@ -12,7 +12,7 @@ using System.Text;
 
 public class ConfiguracaoTask : AsyncTask
 {
-    private ProgressDialog _progressDialog;
+    //private ProgressDialog _progressDialog;
     private Context _context;
     string txtEndereco;
     WebResponse myWebResponse = null;
@@ -23,7 +23,7 @@ public class ConfiguracaoTask : AsyncTask
     {
         base.OnPreExecute();
 
-        _progressDialog = ProgressDialog.Show(_context, "Configuração", "Por favor aguarde...");
+        //_progressDialog = ProgressDialog.Show(_context, "Configuração", "Por favor aguarde...");
     }
 
     protected override Java.Lang.Object DoInBackground(params Java.Lang.Object[] @params)
@@ -91,7 +91,8 @@ public class ConfiguracaoTask : AsyncTask
     {
         base.OnPostExecute(result);
         
-        _progressDialog.Hide();
+        //_progressDialog.Hide();
 
     }
 }
+

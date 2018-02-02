@@ -12,9 +12,7 @@ namespace Sample.Android.Resources.Model
         public string empresaId { get; set; }
         
         public string denominacao { get; set; }
-
-        public List<Armazem> ListaArmazens { get; set; }
-
+        
         public override string ToString()
         {
             return string.Format("[Empresa:id={0}, empresaId={1}, denominacao={2}]", id, empresaId, denominacao);

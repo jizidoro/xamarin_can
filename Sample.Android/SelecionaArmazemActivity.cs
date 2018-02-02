@@ -47,7 +47,15 @@ namespace Sample.Android
 
 
             var teste = JsonConvert.DeserializeObject<ModelEmpresa>(json);
-            
+
+            Empresa empresaTemp = new Empresa();
+
+            empresaTemp.id = Convert.ToInt32(teste.empresaId);
+            empresaTemp.denominacao = teste.denominacao;
+            empresaTemp.empresaId = teste.empresaId;
+
+            await db.InsertOrReplaceAsync(empresaTemp);
+
             foreach (var item in teste.ListaArmazens)
             {
                 ListaArmazens.Add(item.denominacao);
@@ -59,21 +67,15 @@ namespace Sample.Android
                 armazemTemp.id = Convert.ToInt32(item.armazemId);
                 armazemTemp.latitude = item.latitude;
                 armazemTemp.longitude = item.longitude;
-                db.InsertOrReplaceAsync(armazemTemp);
+                await db.InsertOrReplaceAsync(armazemTemp);
 
                 foreach (var subitem in item.ListaPermissoes)
                 {
                     subitem.armazemId = item.armazemId;
-                    db.InsertOrReplaceAsync(subitem);
+                    await db.InsertOrReplaceAsync(subitem);
                 }
             }
-            Empresa empresaTemp = new Empresa();
 
-            empresaTemp.id = Convert.ToInt32(teste.empresaId);
-            empresaTemp.denominacao = teste.denominacao;
-            empresaTemp.empresaId = teste.empresaId;
-
-            db.InsertOrReplaceAsync(empresaTemp);
 
             ListAdapter = new ArrayAdapter<string>(this, Resource.Layout.HistoricoAlertas, ListaArmazens);
 

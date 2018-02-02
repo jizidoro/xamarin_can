@@ -12,7 +12,7 @@ using System.Text;
 
 public class LoginTask : AsyncTask
 {
-    private ProgressDialog _progressDialog;
+    //private ProgressDialog _progressDialog;
     private Context _context;
     string usuario, senha;
     WebResponse myWebResponse = null;
@@ -24,7 +24,7 @@ public class LoginTask : AsyncTask
     protected override void OnPreExecute()
     {
         base.OnPreExecute();
-        _progressDialog = ProgressDialog.Show(_context, "Logando no sistema", "Por favor aguarde...");
+        //_progressDialog = ProgressDialog.Show(_context, "Logando no sistema", "Por favor aguarde...");
     }
 
     protected override Java.Lang.Object DoInBackground(params Java.Lang.Object[] @params)
@@ -124,7 +124,7 @@ public class LoginTask : AsyncTask
     {
         base.OnPostExecute(result);
         
-        _progressDialog.Hide();
+        //_progressDialog.Hide();
     }
 
 }

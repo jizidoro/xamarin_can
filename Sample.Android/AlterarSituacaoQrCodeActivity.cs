@@ -62,8 +62,10 @@ namespace Sample.Android
                 scanner.TopText = "Para evitar erros na leitura.\n Segure o dispositivo a 15 centimetros do código de barras.";
                 scanner.BottomText = "Coloque um código de barras no visor da câmera para digitalizá-lo.";
 
-                var opt = new MobileBarcodeScanningOptions();
-                opt.DelayBetweenContinuousScans = 3000;
+                var opt = new MobileBarcodeScanningOptions
+                {
+                    DelayBetweenContinuousScans = 2000
+                };
 
                 //Start scanning
                 scanner.ScanContinuously(opt, HandleScanResult);

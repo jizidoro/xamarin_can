@@ -116,7 +116,7 @@ namespace Sample.Android
             }
         }
 
-        private void btnQr_Click(object sender, EventArgs e)
+        private void BtnQr_Click(object sender, EventArgs e)
         {
             StartActivity(typeof(AlterarSituacaoQrCodeActivity));
         }
@@ -153,11 +153,13 @@ namespace Sample.Android
                 TokenAtual.numeroCesv = HttpUtility.UrlEncode(result.Text);
                 db.InsertOrReplace(TokenAtual);
                 db.Close();
+
+                StartActivity(typeof(AlterarSituacaoOprActivity));
+                Finish();
             }
             else
                 msg = "Scanning Canceled!";
-            StartActivity(typeof(AlterarSituacaoOprActivity));
-            Finish();
+
             //this.RunOnUiThread(() => Toast.MakeText(this, msg, ToastLength.Short).Show());
         }
 

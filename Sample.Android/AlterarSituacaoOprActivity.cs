@@ -70,11 +70,13 @@ namespace Sample.Android
 
 
 
-                
-                LinearLayout.LayoutParams LayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MatchParent, LinearLayout.LayoutParams.MatchParent);
-                //LayoutParams.Height = LinearLayout.LayoutParams.MatchParent;
-                //LayoutParams.Width = LinearLayout.LayoutParams.MatchParent;
-                LayoutParams.Weight = 1;
+
+                LinearLayout.LayoutParams LayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MatchParent, LinearLayout.LayoutParams.MatchParent)
+                {
+                    //LayoutParams.Height = LinearLayout.LayoutParams.MatchParent;
+                    //LayoutParams.Width = LinearLayout.LayoutParams.MatchParent;
+                    Weight = 1
+                };
                 LayoutParams.SetMargins(10, 3, 10, 0);
                 //LinearLayoutParams.Weight = Convert.ToSingle(0.5);
 
@@ -96,39 +98,51 @@ namespace Sample.Android
 
                 scrollView.AddView(mainLayout);
 
-                var texto1 = new TextView(this);
-                texto1.Text = string.Concat("Numero: ", DadosRelatorioCesv.numero);
-                texto1.LayoutParameters = LayoutParams;
+                var texto1 = new TextView(this)
+                {
+                    Text = string.Concat("Numero: ", DadosRelatorioCesv.numero),
+                    LayoutParameters = LayoutParams
+                };
                 texto1.SetTextSize(ComplexUnitType.Sp, 15);
                 mainLayout.AddView(texto1);
 
-                var texto2 = new TextView(this);
-                texto2.Text = string.Concat("Placa: ", DadosRelatorioCesv.placa);
-                texto2.LayoutParameters = LayoutParams;
+                var texto2 = new TextView(this)
+                {
+                    Text = string.Concat("Placa: ", DadosRelatorioCesv.placa),
+                    LayoutParameters = LayoutParams
+                };
                 texto2.SetTextSize(ComplexUnitType.Sp, 15);
                 mainLayout.AddView(texto2);
 
-                var texto3 = new TextView(this);
-                texto3.Text = string.Concat("Cliente: ", DadosRelatorioCesv.nomeCliente);
-                texto3.LayoutParameters = LayoutParams;
+                var texto3 = new TextView(this)
+                {
+                    Text = string.Concat("Cliente: ", DadosRelatorioCesv.nomeCliente),
+                    LayoutParameters = LayoutParams
+                };
                 texto3.SetTextSize(ComplexUnitType.Sp, 15);
                 mainLayout.AddView(texto3);
 
-                var texto4 = new TextView(this);
-                texto4.Text = string.Concat("Transportadora: ", DadosRelatorioCesv.nomeTransportadora);
-                texto4.LayoutParameters = LayoutParams;
+                var texto4 = new TextView(this)
+                {
+                    Text = string.Concat("Transportadora: ", DadosRelatorioCesv.nomeTransportadora),
+                    LayoutParameters = LayoutParams
+                };
                 texto4.SetTextSize(ComplexUnitType.Sp, 15);
                 mainLayout.AddView(texto4);
 
-                var texto5 = new TextView(this);
-                texto5.Text = string.Concat("Motorista: ", DadosRelatorioCesv.nome);
-                texto5.LayoutParameters = LayoutParams;
+                var texto5 = new TextView(this)
+                {
+                    Text = string.Concat("Motorista: ", DadosRelatorioCesv.nome),
+                    LayoutParameters = LayoutParams
+                };
                 texto5.SetTextSize(ComplexUnitType.Sp, 15);
                 mainLayout.AddView(texto5);
 
-                var texto6 = new TextView(this);
-                texto6.Text = string.Concat("Status: ", DadosRelatorioCesv.statusInicio);
-                texto6.LayoutParameters = LayoutParams;
+                var texto6 = new TextView(this)
+                {
+                    Text = string.Concat("Status: ", DadosRelatorioCesv.statusInicio),
+                    LayoutParameters = LayoutParams
+                };
                 texto6.SetTextSize(ComplexUnitType.Sp, 15);
                 mainLayout.AddView(texto6);
 
@@ -138,8 +152,10 @@ namespace Sample.Android
                 
                 for (int n = 0; n < DadosRelatorioCesv.ListaDestinos.Count; n++)
                 {
-                    var aButton = new Button(this);
-                    aButton.LayoutParameters = LayoutParams;
+                    var aButton = new Button(this)
+                    {
+                        LayoutParameters = LayoutParams
+                    };
                     //aButton.SetBackgroundResource(Color.Rgb(10 ,10 ,10));
                     //aButton.DrawingCacheBackgroundColor = Color.ParseColor("#FF6A00");
                     aButton.SetBackgroundColor(Color.ParseColor(DadosRelatorioCesv.ListaDestinos[n].cor));

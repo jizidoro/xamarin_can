@@ -54,7 +54,7 @@ namespace Sample.Android
                 ListaHistoricoAlertas.Add(item.texto);
                 IdHistoricoAlertas.Add(Convert.ToInt32(item.historicoAlertasId));
                 item.id = Convert.ToInt32(item.historicoAlertasId);
-                db.InsertOrReplaceAsync(item);
+                await db.InsertOrReplaceAsync(item);
 
             }
 

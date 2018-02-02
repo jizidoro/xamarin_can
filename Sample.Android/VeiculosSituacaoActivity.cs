@@ -25,14 +25,14 @@ namespace Sample.Android
             activity = this;
 
             var db = new SQLiteAsyncConnection(dbPath);
-            db.ExecuteAsync("DELETE FROM Cesv");
-            db.ExecuteAsync("DELETE FROM Status");
+            await db.ExecuteAsync("DELETE FROM Cesv");
+            await db.ExecuteAsync("DELETE FROM Status");
             var dadosConfiguracao = db.Table<Configuracao>();
             var dadosToken = db.Table<Token>();
             var configuracao = await  dadosConfiguracao.FirstOrDefaultAsync();
             var TokenAtual = await dadosToken.Where(x => x.data_att_token >= DateTime.Now).FirstOrDefaultAsync();
 
-            string url = "http://" + configuracao.endereco + "/Api/GerenciamentoPatio/GetCesvByStatus";
+            string url = "http://" + configuracao.endereco + "/Api/GerenciamentoPatio/GetCesvByStatus?ArmazemId=" + TokenAtual.armazemId;
             System.Uri myUri = new System.Uri(url);
             HttpWebRequest myWebRequest = (HttpWebRequest)HttpWebRequest.Create(myUri);
 
@@ -75,14 +75,14 @@ namespace Sample.Android
                     item.telefone = item.telefone;
                     item.tipoVeiculo = item.tipoVeiculo;
                     */
-                    db.InsertOrReplaceAsync(subitem);
+                    await db.InsertOrReplaceAsync(subitem);
                 }
                 Status statusTemp = new Status();
                 statusTemp.cor = item.cor;
                 statusTemp.denominacao = item.denominacao;
                 statusTemp.statusId = item.statusId;
                 statusTemp.id = Convert.ToInt32(item.statusId);
-                db.InsertOrReplaceAsync(statusTemp);
+                await db.InsertOrReplaceAsync(statusTemp);
             }
 
             ListAdapter = new ArrayAdapter<string>(this, Resource.Layout.VeiculosSituacao, ListaStatus);
