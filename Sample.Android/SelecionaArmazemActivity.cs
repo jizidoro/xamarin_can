@@ -27,26 +27,28 @@ namespace Sample.Android
             var configuracao = await dadosConfiguracao.FirstOrDefaultAsync();
             var TokenAtual = await dadosToken.Where(x => x.data_att_token >= DateTime.Now).FirstOrDefaultAsync();
 
-            string url = "http://" + configuracao.endereco + "/Api/GerenciamentoPatio/GetUnidadesUsuario";
-            System.Uri myUri = new System.Uri(url);
-            HttpWebRequest myWebRequest = (HttpWebRequest)HttpWebRequest.Create(myUri);
+            string url = "http://" + configuracao.endereco + "/Api/GerenciamentoPatio/GetUnidadesUsuario?UsuarioCod=" + TokenAtual.loginId;
+            System.Uri myUriPost = new System.Uri(url);
+            HttpWebRequest myWebRequestPost = (HttpWebRequest)HttpWebRequest.Create(myUriPost);
 
-            var myHttpWebRequest = (HttpWebRequest)myWebRequest;
-            myHttpWebRequest.PreAuthenticate = true;
-            myHttpWebRequest.Headers.Add("Authorization", "Bearer " + TokenAtual.access_token);
-            myHttpWebRequest.Accept = "application/json";
+            var myHttpWebRequestPost = (HttpWebRequest)myWebRequestPost;
+            myHttpWebRequestPost.PreAuthenticate = true;
+            myHttpWebRequestPost.Method = "GET";
+            myHttpWebRequestPost.ContentLength = 0;
+            myHttpWebRequestPost.Headers.Add("Authorization", "Bearer " + TokenAtual.access_token);
+            myHttpWebRequestPost.Accept = "application/json";
 
-            var myWebResponse = myWebRequest.GetResponse();
-            var responseStream = myWebResponse.GetResponseStream();
+            var myWebResponsePost = myWebRequestPost.GetResponse();
+            var responseStreamPost = myWebResponsePost.GetResponseStream();
 
-            var myStreamReader = new StreamReader(responseStream, Encoding.Default);
-            var json = myStreamReader.ReadToEnd();
+            var myStreamReaderPost = new StreamReader(responseStreamPost, Encoding.Default);
+            var jsonPost = myStreamReaderPost.ReadToEnd();
 
-            responseStream.Close();
-            myWebResponse.Close();
+            responseStreamPost.Close();
+            myWebResponsePost.Close();
 
 
-            var teste = JsonConvert.DeserializeObject<ModelEmpresa>(json);
+            var teste = JsonConvert.DeserializeObject<ModelEmpresa>(jsonPost);
 
             Empresa empresaTemp = new Empresa();
 

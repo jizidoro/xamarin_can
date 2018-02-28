@@ -8,6 +8,7 @@ using SQLite;
 using System;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text;
 using Android.Util;
@@ -67,36 +68,65 @@ namespace Sample.Android
                     case "AppPatioAlterarSitucao":
                         aButton.Text = "Alterar Situação";
                         aButton.Click += BtnCriar_Click1;
+                        aButton.SetTextSize(ComplexUnitType.Sp, 25);
+                        mainLayout.AddView(aButton);
                         break;
                     case "AppPatioVeiculoSituacao":
                         aButton.Text = "Veiculos por Situação";
                         aButton.Click += BtnCriar_Click2;
+                        aButton.SetTextSize(ComplexUnitType.Sp, 25);
+                        mainLayout.AddView(aButton);
                         break;
                     case "AppPatioHistoricoAlertas":
                         aButton.Text = "Historico de Alertas";
                         aButton.Click += BtnCriar_Click3;
-                        break;
-                    default:
-                        Console.WriteLine("Default case");
+                        aButton.SetTextSize(ComplexUnitType.Sp, 25);
+                        mainLayout.AddView(aButton);
                         break;
                 }
-                aButton.SetTextSize(ComplexUnitType.Sp, 25);
-                mainLayout.AddView(aButton);
+            }
+
+            if (permissoes.Where(x => x.denominacao.Equals("AppPatioEntradaAbreCancela")).Any())
+            {
+
+                var entradaButton = new Button(this);
+                entradaButton.LayoutParameters = linearLayoutParams;
+                entradaButton.SetTextColor(new r.ColorStateList(new int[][] { new int[] { } }, new int[] { Color.White.ToArgb() }));
+                entradaButton.Text = "Abre Cancela Entrada";
+                entradaButton.Click += BtnCriar_Click4;
+                entradaButton.SetTextSize(ComplexUnitType.Sp, 25);
+                mainLayout.AddView(entradaButton);
+            }
+
+
+
+            if (permissoes.Where(x => x.denominacao.Equals("AppPatioSaidaAbreCancela")).Any())
+            {
+                var saidaButton = new Button(this);
+                saidaButton.LayoutParameters = linearLayoutParams;
+                saidaButton.SetTextColor(new r.ColorStateList(new int[][] { new int[] { } }, new int[] { Color.White.ToArgb() }));
+                saidaButton.Text = "Abre Cancela Saida";
+                saidaButton.Click += BtnCriar_Click5;
+                saidaButton.SetTextSize(ComplexUnitType.Sp, 25);
+                mainLayout.AddView(saidaButton);
             }
 
             var configButton = new Button(this);
             configButton.LayoutParameters = linearLayoutParams;
             configButton.SetTextColor(new r.ColorStateList(new int[][] { new int[] { } }, new int[] { Color.White.ToArgb() }));
             configButton.Text = "Configuração";
-            configButton.Click += BtnCriar_Click4;
+            configButton.Click += BtnCriar_Click6;
             configButton.SetTextSize(ComplexUnitType.Sp, 25);
             mainLayout.AddView(configButton);
+
+
+
 
             var logoutButton = new Button(this);
             logoutButton.LayoutParameters = linearLayoutParams;
             logoutButton.SetTextColor(new r.ColorStateList(new int[][] { new int[] { } }, new int[] { Color.White.ToArgb() }));
             logoutButton.Text = "Sair";
-            logoutButton.Click += BtnCriar_Click5;
+            logoutButton.Click += BtnCriar_Click7;
             logoutButton.SetTextSize(ComplexUnitType.Sp, 25);
             mainLayout.AddView(logoutButton);
         }
@@ -126,36 +156,6 @@ namespace Sample.Android
             }
         }
 
-        public async void webRequestTeste()
-        {
-            string dbPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "bancoB3.db3");
-
-            var db = new SQLiteAsyncConnection(dbPath);
-            var dadosToken = db.Table<Token>();
-            var dadosConfiguracao = db.Table<Configuracao>();
-            var configuracao = await dadosConfiguracao.FirstOrDefaultAsync();
-            var TokenAtual = await dadosToken.Where(x => x.data_att_token >= DateTime.Now).FirstOrDefaultAsync();
-
-            string url = "http://" + configuracao.endereco + "/Api/GerenciamentoPatio/GetCesvByStatus?ArmazemId=" + TokenAtual.armazemId;
-            System.Uri myUri = new System.Uri(url);
-            HttpWebRequest myWebRequest = (HttpWebRequest)HttpWebRequest.Create(myUri);
-            var myHttpWebRequest = (HttpWebRequest)myWebRequest;
-            myHttpWebRequest.PreAuthenticate = true;
-            myHttpWebRequest.Headers.Add("Authorization", "Bearer " + TokenAtual.access_token);
-            myHttpWebRequest.Accept = "application/json";
-
-            var myWebResponse = myWebRequest.GetResponse();
-            var responseStream = myWebResponse.GetResponseStream();
-
-
-            var myStreamReader = new StreamReader(responseStream, Encoding.Default);
-            var json = myStreamReader.ReadToEnd();
-
-            responseStream.Close();
-            myWebResponse.Close();
-            
-        }
-
         private void BtnCriar_Click1(object sender, EventArgs e)
         {
             //Toast.MakeText(this, "Alterar Situacao...,", ToastLength.Short).Show();
@@ -177,14 +177,84 @@ namespace Sample.Android
             Finish();
         }
 
-        private void BtnCriar_Click4(object sender, EventArgs e)
+        private void BtnCriar_Click6(object sender, EventArgs e)
         {
             //Toast.MakeText(this, "ConfiguracaoActivity...,", ToastLength.Short).Show();
             StartActivity(typeof(ConfiguracaoActivity));
             Finish();
         }
 
+        private void BtnCriar_Click4(object sender, EventArgs e)
+        {
+            var db2 = new SQLiteConnection(dbPath);
+            db2.Close();
+
+            var db = new SQLiteConnection(dbPath);
+            var dadosConfiguracao = db.Table<Configuracao>();
+            var dadosToken = db.Table<Token>();
+            var configuracao = dadosConfiguracao.FirstOrDefault();
+            var TokenAtual = dadosToken.Where(x => x.data_att_token >= DateTime.Now).FirstOrDefault();
+            db.Close();
+
+            string url = "http://" + configuracao.endereco + "/Api/GerenciamentoPatio/PostAbreCancelaSaida?UsuarioCod=" + TokenAtual.loginId;
+            System.Uri myUriPost = new System.Uri(url);
+            HttpWebRequest myWebRequestPost = (HttpWebRequest)HttpWebRequest.Create(myUriPost);
+
+            var myHttpWebRequestPost = (HttpWebRequest)myWebRequestPost;
+            myHttpWebRequestPost.PreAuthenticate = true;
+            myHttpWebRequestPost.Method = "POST";
+            myHttpWebRequestPost.ContentLength = 0;
+            myHttpWebRequestPost.Headers.Add("Authorization", "Bearer " + TokenAtual.access_token);
+            myHttpWebRequestPost.Accept = "application/json";
+
+            var myWebResponsePost = myWebRequestPost.GetResponse();
+            var responseStreamPost = myWebResponsePost.GetResponseStream();
+
+            var myStreamReaderPost = new StreamReader(responseStreamPost, Encoding.Default);
+            var jsonPost = myStreamReaderPost.ReadToEnd();
+
+            responseStreamPost.Close();
+            myWebResponsePost.Close();
+
+            Toast.MakeText(this, "Abrindo cancela de entrada...,", ToastLength.Short).Show();
+        }
+
         private void BtnCriar_Click5(object sender, EventArgs e)
+        {
+
+            var db2 = new SQLiteConnection(dbPath);
+            db2.Close();
+
+            var db = new SQLiteConnection(dbPath);
+            var dadosConfiguracao = db.Table<Configuracao>();
+            var dadosToken = db.Table<Token>();
+            var configuracao = dadosConfiguracao.FirstOrDefault();
+            var TokenAtual = dadosToken.Where(x => x.data_att_token >= DateTime.Now).FirstOrDefault();
+            db.Close();
+            string url = "http://" + configuracao.endereco + "/Api/GerenciamentoPatio/PostAbreCancelaSaida?UsuarioCod=" + TokenAtual.loginId;
+            System.Uri myUriPost = new System.Uri(url);
+            HttpWebRequest myWebRequestPost = (HttpWebRequest)HttpWebRequest.Create(myUriPost);
+
+            var myHttpWebRequestPost = (HttpWebRequest)myWebRequestPost;
+            myHttpWebRequestPost.PreAuthenticate = true;
+            myHttpWebRequestPost.Method = "POST";
+            myHttpWebRequestPost.ContentLength = 0;
+            myHttpWebRequestPost.Headers.Add("Authorization", "Bearer " + TokenAtual.access_token);
+            myHttpWebRequestPost.Accept = "application/json";
+
+            var myWebResponsePost = myWebRequestPost.GetResponse();
+            var responseStreamPost = myWebResponsePost.GetResponseStream();
+
+            var myStreamReaderPost = new StreamReader(responseStreamPost, Encoding.Default);
+            var jsonPost = myStreamReaderPost.ReadToEnd();
+
+            responseStreamPost.Close();
+            myWebResponsePost.Close();
+
+            Toast.MakeText(this, "Abrindo cancela de saida...,", ToastLength.Short).Show();
+        }
+
+        private void BtnCriar_Click7(object sender, EventArgs e)
         {
             var db = new SQLiteAsyncConnection(dbPath);
             db.ExecuteAsync("DELETE FROM Token");
