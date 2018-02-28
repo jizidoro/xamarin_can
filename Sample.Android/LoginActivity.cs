@@ -12,6 +12,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using Android.Util;
+using Newtonsoft.Json;
 
 namespace Sample.Android
 {
@@ -196,7 +197,7 @@ namespace Sample.Android
             var TokenAtual = dadosToken.Where(x => x.data_att_token >= DateTime.Now).FirstOrDefault();
             db.Close();
 
-            string url = "http://" + configuracao.endereco + "/Api/GerenciamentoPatio/PostAbreCancelaSaida?UsuarioCod=" + TokenAtual.loginId;
+            string url = "http://" + configuracao.endereco + "/Api/GerenciamentoPatio/PostAbreCancelaEntrada?UsuarioCod=" + TokenAtual.loginId;
             System.Uri myUriPost = new System.Uri(url);
             HttpWebRequest myWebRequestPost = (HttpWebRequest)HttpWebRequest.Create(myUriPost);
 
@@ -216,7 +217,9 @@ namespace Sample.Android
             responseStreamPost.Close();
             myWebResponsePost.Close();
 
-            Toast.MakeText(this, "Abrindo cancela de entrada...,", ToastLength.Short).Show();
+            var teste = JsonConvert.DeserializeObject<string>(jsonPost);
+
+            Toast.MakeText(this, teste, ToastLength.Short).Show();
         }
 
         private void BtnCriar_Click5(object sender, EventArgs e)
@@ -251,7 +254,9 @@ namespace Sample.Android
             responseStreamPost.Close();
             myWebResponsePost.Close();
 
-            Toast.MakeText(this, "Abrindo cancela de saida...,", ToastLength.Short).Show();
+            var teste = JsonConvert.DeserializeObject<string>(jsonPost);
+
+            Toast.MakeText(this, teste, ToastLength.Short).Show();
         }
 
         private void BtnCriar_Click7(object sender, EventArgs e)
